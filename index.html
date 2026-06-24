@@ -502,6 +502,16 @@
       transition: color .2s;
     }
     .footer-links a:hover { color: var(--gold); }
+    .footer-social { display: flex; gap: 18px; justify-content: center; margin-bottom: 32px; }
+    .footer-social a {
+      display: flex; align-items: center; justify-content: center;
+      width: 40px; height: 40px; border-radius: 50%;
+      background: rgba(253,246,236,.06);
+      color: rgba(253,246,236,.6);
+      text-decoration: none; font-size: 1.05rem;
+      transition: background .2s, color .2s, transform .15s;
+    }
+    .footer-social a:hover { background: var(--gold); color: var(--white); transform: translateY(-2px); }
     .footer-divider {
       width: 48px; height: 1px; background: rgba(200,150,12,.3);
       margin: 0 auto 24px;
@@ -888,7 +898,7 @@
     <div class="rejoindre-inner">
       <p class="section-label">Prêt à chanter ?</p>
       <h2 class="section-title">Rejoignez<br><em>l'aventure</em></h2>
-      <p class="section-lead">La chorale Crème Anglaise accueille de nouveaux membres toute l'année. Aucune connaissance musicale préalable n'est exigée — juste de l'enthousiasme !</p>
+      <p class="section-lead">La chorale Crème Anglaise accueille de nouveaux membres toute l'année. Nous sommes actuellement à la recherche de chanteurs : sopranos, altos, basses, de tous les âges et de toutes les nationalités. Aucune connaissance musicale préalable n'est exigée — juste de l'enthousiasme !</p>
       <div class="rejoindre-grid">
         <div class="rejoindre-card">
           <div class="icon">📅</div>
@@ -898,7 +908,7 @@
         <div class="rejoindre-card">
           <div class="icon">🎵</div>
           <h3>Toutes les voix</h3>
-          <p>Soprano, alto, ténor ou basse — toutes les voix ont leur place dans notre ensemble.</p>
+          <p>Nous sommes à la recherche de chanteurs et chanteuses : sopranos, altos, basses — tous les âges et toutes les nationalités sont les bienvenus dans notre ensemble.</p>
         </div>
         <div class="rejoindre-card">
           <div class="icon">💰</div>
@@ -939,7 +949,14 @@
             <div class="contact-detail-icon">📧</div>
             <div class="contact-detail-text">
               <strong>E-mail</strong>
-              <span>contact@cremeanglaise-chorale.fr</span>
+              <span>c.a.chorale22@gmail.com</span>
+            </div>
+          </div>
+          <div class="contact-detail">
+            <div class="contact-detail-icon">🌐</div>
+            <div class="contact-detail-text">
+              <strong>Réseaux sociaux</strong>
+              <span><a href="https://www.facebook.com/Pantomimeevran" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;">Facebook</a> · <a href="https://www.instagram.com/chorale_creme_anglaise/" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;">Instagram</a></span>
             </div>
           </div>
           <div class="contact-detail">
@@ -1007,6 +1024,11 @@
     <a href="#contact">Contact</a>
   </nav>
   <div class="footer-divider"></div>
+  <div class="footer-social">
+    <a href="https://www.facebook.com/Pantomimeevran" target="_blank" rel="noopener" aria-label="Facebook">📘</a>
+    <a href="https://www.instagram.com/chorale_creme_anglaise/" target="_blank" rel="noopener" aria-label="Instagram">📷</a>
+  </div>
+  <div class="footer-divider"></div>
   <p class="footer-copy">© 2025 Association Crème Anglaise · Fait avec ♪ en Bretagne</p>
 </footer>
 
@@ -1054,7 +1076,6 @@
     { title: "Oh Happy Day", lang: "en", flag: "🇬🇧" },
     { title: "In Memoriam", lang: "en", flag: "🇬🇧" },
     { title: "Your Song", lang: "en", flag: "🇬🇧" },
-    { title: "Malaika", lang: "en", flag: "🇬🇧" },
     // Bilingues (FR/EN)
     { title: "Vois sur ton chemin", lang: "bilingual", flag: "🌍" },
     { title: "Aux Champs-Élysées / Waterloo Road", lang: "bilingual", flag: "🌍" },
@@ -1065,6 +1086,7 @@
     { title: "Le lion est mort ce soir", lang: "bilingual", flag: "🌍" },
     // Autres langues
     { title: "El condor pasa / Sur le chemin des andes", lang: "other", flag: "🌐" },
+    { title: "Malaika", lang: "other", flag: "🌐" },
     { title: "Vois sur ton chemin (latin)", lang: "other", flag: "🌐" },
   ];
 
