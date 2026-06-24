@@ -1,0 +1,1132 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Crème Anglaise – Chorale d'Évran & Dinan</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream:   #FDF6EC;
+      --gold:    #C8960C;
+      --deep:    #1A1208;
+      --brown:   #3D2B0F;
+      --soft:    #F0E4CC;
+      --muted:   #7A6245;
+      --white:   #FFFFFF;
+      --radius:  12px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--deep);
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 18px 48px;
+      background: rgba(253,246,236,.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(200,150,12,.18);
+    }
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.35rem; font-weight: 700;
+      color: var(--brown);
+      letter-spacing: .02em;
+    }
+    .nav-logo span { color: var(--gold); }
+    .nav-links { display: flex; gap: 32px; list-style: none; }
+    .nav-links a {
+      text-decoration: none; font-size: .9rem; font-weight: 500;
+      color: var(--brown); letter-spacing: .04em;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--gold); }
+    .nav-cta {
+      background: var(--gold); color: var(--white);
+      border: none; padding: 10px 24px; border-radius: 50px;
+      font-family: 'DM Sans', sans-serif; font-size: .88rem; font-weight: 500;
+      cursor: pointer; transition: background .2s, transform .15s;
+      text-decoration: none;
+    }
+    .nav-cta:hover { background: var(--brown); transform: translateY(-1px); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      text-align: center;
+      padding: 120px 24px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 110%, rgba(200,150,12,.18) 0%, transparent 70%),
+        radial-gradient(ellipse 60% 40% at 20% 0%, rgba(200,150,12,.10) 0%, transparent 60%);
+    }
+    /* Musical staff lines */
+    .hero-staff {
+      position: absolute; inset: 0; pointer-events: none;
+      overflow: hidden;
+    }
+    .hero-staff::before {
+      content: '';
+      position: absolute; left: -5%; right: -5%;
+      top: 38%; height: 90px;
+      background: repeating-linear-gradient(
+        to bottom,
+        transparent 0px,
+        transparent 16px,
+        rgba(200,150,12,.13) 16px,
+        rgba(200,150,12,.13) 17px
+      );
+    }
+    /* Floating notes */
+    .note {
+      position: absolute;
+      font-size: 2rem; opacity: .12; color: var(--gold);
+      animation: float 6s ease-in-out infinite;
+      user-select: none;
+    }
+    .note:nth-child(1) { top: 15%; left: 8%; animation-delay: 0s; font-size: 2.5rem; }
+    .note:nth-child(2) { top: 25%; right: 10%; animation-delay: 1.2s; font-size: 1.8rem; }
+    .note:nth-child(3) { bottom: 30%; left: 12%; animation-delay: 2.4s; }
+    .note:nth-child(4) { bottom: 20%; right: 14%; animation-delay: 0.6s; font-size: 3rem; opacity: .08; }
+    .note:nth-child(5) { top: 55%; left: 4%; animation-delay: 3s; font-size: 1.5rem; }
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(-5deg); }
+      50%       { transform: translateY(-18px) rotate(5deg); }
+    }
+
+    .hero-content { position: relative; max-width: 780px; }
+    .hero-eyebrow {
+      display: inline-block;
+      font-size: .8rem; font-weight: 500; letter-spacing: .15em;
+      color: var(--gold); text-transform: uppercase;
+      background: rgba(200,150,12,.1);
+      padding: 6px 18px; border-radius: 50px;
+      margin-bottom: 28px;
+    }
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 9vw, 6.5rem);
+      line-height: 1.05;
+      color: var(--brown);
+      margin-bottom: 8px;
+    }
+    .hero-title em {
+      font-style: italic; color: var(--gold);
+      display: block;
+    }
+    .hero-sub {
+      font-size: 1.1rem; color: var(--muted); font-weight: 300;
+      margin: 20px 0 36px;
+      line-height: 1.7;
+    }
+    .hero-sub strong { color: var(--brown); font-weight: 500; }
+    .hero-actions { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+    .btn-primary {
+      background: var(--gold); color: var(--white);
+      padding: 15px 36px; border-radius: 50px;
+      font-size: 1rem; font-weight: 500;
+      text-decoration: none; transition: background .2s, transform .15s;
+      display: inline-flex; align-items: center; gap: 8px;
+    }
+    .btn-primary:hover { background: var(--brown); transform: translateY(-2px); }
+    .btn-secondary {
+      background: transparent; color: var(--brown);
+      padding: 15px 36px; border-radius: 50px;
+      border: 2px solid rgba(61,43,15,.2);
+      font-size: 1rem; font-weight: 500;
+      text-decoration: none; transition: border-color .2s, color .2s, transform .15s;
+      display: inline-flex; align-items: center; gap: 8px;
+    }
+    .btn-secondary:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-2px); }
+
+    .scroll-hint {
+      position: absolute; bottom: 18px; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      color: var(--muted); font-size: .75rem; letter-spacing: .1em; text-transform: uppercase;
+      animation: bounce 2s ease-in-out infinite;
+    }
+    .scroll-hint::after {
+      content: '↓'; font-size: 1.2rem; color: var(--gold);
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50%       { transform: translateX(-50%) translateY(6px); }
+    }
+
+    /* ── SECTION BASE ── */
+    section { padding: 96px 24px; }
+    .container { max-width: 1100px; margin: 0 auto; }
+    .section-label {
+      font-size: .75rem; letter-spacing: .16em; text-transform: uppercase;
+      color: var(--gold); font-weight: 500; margin-bottom: 12px;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      color: var(--brown); line-height: 1.15; margin-bottom: 20px;
+    }
+    .section-title em { font-style: italic; color: var(--gold); }
+    .section-lead {
+      font-size: 1.05rem; color: var(--muted); line-height: 1.8;
+      max-width: 600px; font-weight: 300;
+    }
+
+    /* ── À PROPOS ── */
+    .about-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 64px;
+      align-items: center; margin-top: 56px;
+    }
+    .about-text p {
+      color: var(--muted); line-height: 1.85; font-size: 1rem; font-weight: 300;
+      margin-bottom: 18px;
+    }
+    .about-text p strong { color: var(--brown); font-weight: 500; }
+    .about-cards { display: flex; flex-direction: column; gap: 16px; }
+    .about-card {
+      background: var(--soft); border-radius: var(--radius);
+      padding: 24px 28px; display: flex; align-items: center; gap: 20px;
+      border: 1px solid rgba(200,150,12,.12);
+      transition: transform .2s, box-shadow .2s;
+    }
+    .about-card:hover { transform: translateY(-3px); box-shadow: 0 8px 28px rgba(200,150,12,.12); }
+    .about-card-icon {
+      width: 52px; height: 52px; border-radius: 50%;
+      background: var(--gold); color: var(--white);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; flex-shrink: 0;
+    }
+    .about-card-info h3 {
+      font-family: 'Playfair Display', serif; font-size: 1.1rem;
+      color: var(--brown); margin-bottom: 4px;
+    }
+    .about-card-info p { font-size: .88rem; color: var(--muted); }
+
+    /* ── RÉPERTOIRE ── */
+    .repertoire { background: var(--brown); }
+    .repertoire .section-label { color: rgba(200,150,12,.8); }
+    .repertoire .section-title { color: var(--cream); }
+    .repertoire .section-title em { color: var(--gold); }
+    .repertoire .section-lead { color: rgba(253,246,236,.6); }
+    .rep-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px; margin-top: 52px;
+    }
+    .rep-card {
+      border-radius: var(--radius);
+      padding: 36px 30px;
+      border: 1px solid rgba(255,255,255,.08);
+      position: relative; overflow: hidden;
+      transition: transform .2s, border-color .2s;
+    }
+    .rep-card::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(200,150,12,.12), transparent 60%);
+      transition: opacity .3s;
+    }
+    .rep-card:hover { transform: translateY(-4px); border-color: rgba(200,150,12,.35); }
+    .rep-card-flag {
+      font-size: 2.8rem; margin-bottom: 18px; display: block;
+    }
+    .rep-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem; color: var(--cream);
+      margin-bottom: 12px;
+    }
+    .rep-card p { font-size: .9rem; color: rgba(253,246,236,.55); line-height: 1.7; font-weight: 300; }
+    .rep-card-examples {
+      margin-top: 20px; display: flex; flex-wrap: wrap; gap: 8px;
+    }
+    .rep-tag {
+      background: rgba(200,150,12,.18); color: var(--gold);
+      padding: 4px 12px; border-radius: 50px; font-size: .78rem;
+      border: 1px solid rgba(200,150,12,.25);
+    }
+
+
+    /* ── GALLERY PHOTOS ── */
+    .gallery-grid {
+      margin-top: 52px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+    .gallery-item--photo {
+      border-radius: var(--radius); overflow: hidden;
+      position: relative; cursor: pointer;
+      background: var(--deep);
+      min-height: 220px;
+      display: block; padding: 0; border: none;
+    }
+    .gallery-item--photo.gallery-item--wide {
+      grid-column: 1 / 3;
+      min-height: 300px;
+    }
+    .gallery-item--photo img {
+      width: 100%; height: 100%;
+      object-fit: cover; display: block;
+      transition: transform .4s ease, opacity .3s;
+      opacity: .92;
+    }
+    .gallery-item--photo:hover img { transform: scale(1.04); opacity: 1; }
+    .gallery-caption {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      background: linear-gradient(transparent, rgba(26,18,8,.82));
+      color: rgba(253,246,236,.9);
+      padding: 28px 16px 14px;
+      font-size: .8rem; font-weight: 400; letter-spacing: .03em;
+      transform: translateY(4px); opacity: 0;
+      transition: opacity .3s, transform .3s;
+    }
+    .gallery-item--photo:hover .gallery-caption { opacity: 1; transform: translateY(0); }
+    .gallery-item--placeholder {
+      border-radius: var(--radius);
+      background: rgba(200,150,12,.06);
+      border: 2px dashed rgba(200,150,12,.25);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center; padding: 40px 24px;
+      min-height: 220px; position: relative;
+      transition: border-color .2s, background .2s;
+    }
+    .gallery-item--placeholder:hover { border-color: var(--gold); background: rgba(200,150,12,.13); }
+    .gallery-item-icon { font-size: 2.8rem; margin-bottom: 14px; opacity: .5; }
+    .gallery-item-label { font-size: .85rem; color: var(--muted); line-height: 1.5; }
+    .gallery-item-label strong { color: var(--brown); display: block; font-size: 1rem; margin-bottom: 4px; }
+    .gallery-upload-hint {
+      position: absolute; bottom: 14px;
+      font-size: .72rem; letter-spacing: .08em; color: var(--gold);
+      text-transform: uppercase; opacity: .7;
+    }
+    @media (max-width: 768px) {
+      .gallery-grid { grid-template-columns: 1fr 1fr; }
+      .gallery-item--photo.gallery-item--wide { grid-column: 1 / -1; }
+    }
+
+        /* ── VIDÉOS ── */
+    .videos-grid {
+      margin-top: 52px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    /* last row: 2 cards centered */
+    .videos-grid .video-card:nth-child(4) { grid-column: 1; }
+    .videos-grid .video-card:nth-child(5) { grid-column: 2; }
+
+    .video-card {
+      border-radius: var(--radius); overflow: hidden;
+      background: var(--white);
+      border: 1px solid rgba(200,150,12,.15);
+      box-shadow: 0 2px 12px rgba(0,0,0,.05);
+      transition: box-shadow .2s, transform .2s;
+    }
+    .video-card:hover { box-shadow: 0 8px 28px rgba(200,150,12,.15); transform: translateY(-3px); }
+    .video-native {
+      width: 100%; aspect-ratio: 16/9;
+      display: block; background: var(--deep);
+      border-radius: 0;
+    }
+    .video-info { padding: 16px 18px 18px; }
+    .video-info h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem; color: var(--brown); margin-bottom: 4px;
+    }
+    .video-info p { font-size: .82rem; color: var(--muted); font-weight: 300; }
+    @media (max-width: 900px) {
+      .videos-grid { grid-template-columns: 1fr 1fr; }
+      .videos-grid .video-card:nth-child(4),
+      .videos-grid .video-card:nth-child(5) { grid-column: auto; }
+    }
+    @media (max-width: 600px) {
+      .videos-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ── AGENDA ── */
+    .agenda { background: var(--cream); }
+    .agenda-list { margin-top: 52px; display: flex; flex-direction: column; gap: 20px; }
+    .agenda-item {
+      display: grid; grid-template-columns: 80px 1fr auto;
+      align-items: center; gap: 28px;
+      background: var(--white); border-radius: var(--radius);
+      padding: 24px 32px;
+      border: 1px solid rgba(200,150,12,.12);
+      transition: box-shadow .2s, transform .2s;
+    }
+    .agenda-item:hover { box-shadow: 0 8px 32px rgba(200,150,12,.1); transform: translateY(-2px); }
+    .agenda-date {
+      text-align: center;
+      background: var(--soft); border-radius: 8px; padding: 10px 8px;
+    }
+    .agenda-date .day {
+      font-family: 'Playfair Display', serif; font-size: 2rem;
+      color: var(--gold); font-weight: 700; line-height: 1;
+    }
+    .agenda-date .month {
+      font-size: .72rem; text-transform: uppercase; letter-spacing: .1em;
+      color: var(--muted); margin-top: 2px;
+    }
+    .agenda-info h3 {
+      font-family: 'Playfair Display', serif; font-size: 1.2rem;
+      color: var(--brown); margin-bottom: 6px;
+    }
+    .agenda-info p { font-size: .88rem; color: var(--muted); font-weight: 300; }
+    .agenda-info .tag {
+      display: inline-block; margin-top: 8px;
+      background: rgba(200,150,12,.1); color: var(--gold);
+      padding: 3px 12px; border-radius: 50px; font-size: .75rem;
+    }
+    .agenda-action .btn-small {
+      background: var(--gold); color: var(--white);
+      border: none; padding: 10px 22px; border-radius: 50px;
+      font-size: .85rem; font-weight: 500; cursor: pointer;
+      transition: background .2s;
+      text-decoration: none; display: inline-block;
+    }
+    .agenda-action .btn-small:hover { background: var(--brown); }
+    .agenda-empty {
+      background: rgba(200,150,12,.06);
+      border: 2px dashed rgba(200,150,12,.2);
+      border-radius: var(--radius);
+      padding: 40px; text-align: center; color: var(--muted);
+      font-size: .9rem;
+    }
+
+    /* ── REJOINDRE ── */
+    .rejoindre { background: var(--gold); }
+    .rejoindre .section-label { color: rgba(255,255,255,.7); }
+    .rejoindre .section-title { color: var(--white); }
+    .rejoindre .section-title em { color: var(--cream); }
+    .rejoindre .section-lead { color: rgba(255,255,255,.75); }
+    .rejoindre-inner { max-width: 800px; }
+    .rejoindre-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+      margin: 48px 0;
+    }
+    .rejoindre-card {
+      background: rgba(255,255,255,.15); border-radius: var(--radius);
+      padding: 28px; backdrop-filter: blur(4px);
+      border: 1px solid rgba(255,255,255,.2);
+    }
+    .rejoindre-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem; color: var(--white); margin-bottom: 8px;
+    }
+    .rejoindre-card p { font-size: .88rem; color: rgba(255,255,255,.75); line-height: 1.65; }
+    .rejoindre-card .icon { font-size: 1.8rem; margin-bottom: 12px; }
+    .btn-white {
+      background: var(--white); color: var(--gold);
+      padding: 15px 40px; border-radius: 50px;
+      font-size: 1rem; font-weight: 600; text-decoration: none;
+      transition: transform .2s, box-shadow .2s;
+      display: inline-block;
+    }
+    .btn-white:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(0,0,0,.15); }
+
+    /* ── CONTACT ── */
+    .contact { background: var(--cream); }
+    .contact-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 64px;
+      margin-top: 52px; align-items: start;
+    }
+    .contact-info p {
+      font-size: .95rem; color: var(--muted); line-height: 1.8; font-weight: 300;
+      margin-bottom: 32px;
+    }
+    .contact-details { display: flex; flex-direction: column; gap: 16px; }
+    .contact-detail {
+      display: flex; align-items: center; gap: 14px;
+    }
+    .contact-detail-icon {
+      width: 42px; height: 42px; background: var(--soft);
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; flex-shrink: 0;
+      border: 1px solid rgba(200,150,12,.15);
+    }
+    .contact-detail-text strong { display: block; font-size: .78rem; color: var(--gold);
+      text-transform: uppercase; letter-spacing: .1em; margin-bottom: 2px; }
+    .contact-detail-text span { font-size: .92rem; color: var(--brown); }
+    .contact-form { display: flex; flex-direction: column; gap: 16px; }
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+    .form-group label { font-size: .82rem; color: var(--muted); font-weight: 500; letter-spacing: .05em; }
+    .form-group input, .form-group textarea, .form-group select {
+      background: var(--white); border: 1px solid rgba(200,150,12,.2);
+      border-radius: 8px; padding: 12px 16px;
+      font-family: 'DM Sans', sans-serif; font-size: .95rem; color: var(--brown);
+      transition: border-color .2s;
+      width: 100%;
+    }
+    .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+      outline: none; border-color: var(--gold);
+    }
+    .form-group textarea { resize: vertical; min-height: 110px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .btn-submit {
+      background: var(--brown); color: var(--white);
+      border: none; padding: 14px 32px; border-radius: 50px;
+      font-family: 'DM Sans', sans-serif; font-size: .95rem; font-weight: 500;
+      cursor: pointer; align-self: flex-start;
+      transition: background .2s, transform .15s;
+    }
+    .btn-submit:hover { background: var(--gold); transform: translateY(-2px); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--deep); padding: 52px 24px 32px;
+      text-align: center;
+    }
+    .footer-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem; color: var(--cream); margin-bottom: 6px;
+    }
+    .footer-logo span { color: var(--gold); }
+    .footer-tagline { font-size: .85rem; color: rgba(253,246,236,.4); margin-bottom: 32px; }
+    .footer-links { display: flex; gap: 28px; justify-content: center; flex-wrap: wrap; margin-bottom: 32px; }
+    .footer-links a {
+      color: rgba(253,246,236,.5); font-size: .85rem; text-decoration: none;
+      transition: color .2s;
+    }
+    .footer-links a:hover { color: var(--gold); }
+    .footer-divider {
+      width: 48px; height: 1px; background: rgba(200,150,12,.3);
+      margin: 0 auto 24px;
+    }
+    .footer-copy { font-size: .78rem; color: rgba(253,246,236,.25); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { padding: 16px 20px; }
+      .nav-links, .nav-cta { display: none; }
+      .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+      .rejoindre-grid { grid-template-columns: 1fr; }
+      .agenda-item { grid-template-columns: 70px 1fr; }
+      .agenda-action { display: none; }
+      .gallery-grid { grid-template-columns: 1fr 1fr; }
+      .gallery-item:first-child { grid-column: 1 / -1; }
+      .form-row { grid-template-columns: 1fr; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .note, .scroll-hint { animation: none; }
+    }
+
+    /* ── REPERTOIRE TABS ── */
+    .rep-tabs {
+      display: flex; flex-wrap: wrap; gap: 10px;
+      margin: 44px 0 32px;
+    }
+    .rep-tab {
+      background: rgba(255,255,255,.08); color: rgba(253,246,236,.6);
+      border: 1px solid rgba(255,255,255,.12);
+      padding: 9px 20px; border-radius: 50px;
+      font-family: 'DM Sans', sans-serif; font-size: .85rem;
+      cursor: pointer; transition: all .2s;
+    }
+    .rep-tab:hover { background: rgba(200,150,12,.2); color: var(--cream); border-color: rgba(200,150,12,.4); }
+    .rep-tab.active { background: var(--gold); color: var(--white); border-color: var(--gold); }
+
+    .rep-song-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 12px;
+      min-height: 120px;
+    }
+    .song-card {
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 10px; padding: 14px 18px;
+      display: flex; align-items: center; gap: 12px;
+      transition: background .2s, border-color .2s, transform .15s;
+      cursor: default;
+    }
+    .song-card:hover { background: rgba(200,150,12,.12); border-color: rgba(200,150,12,.3); transform: translateY(-2px); }
+    .song-flag { font-size: 1.2rem; flex-shrink: 0; }
+    .song-title { font-size: .92rem; color: var(--cream); font-weight: 400; line-height: 1.3; }
+    .song-card.fade-in { animation: fadeIn .3s ease both; }
+    @keyframes fadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:none; } }
+
+    .rep-total-note {
+      text-align: center; margin-top: 36px;
+      font-size: .9rem; color: rgba(253,246,236,.45);
+    }
+    .rep-total-note strong { color: var(--gold); }
+
+    /* ── AGENDA STYLES ── */
+    .agenda-item.agenda-past { opacity: .65; }
+    .agenda-item.agenda-upcoming { border-left: 3px solid var(--gold); }
+
+    .agenda-setlist { margin: 10px 0 6px; }
+    .agenda-setlist-toggle {
+      font-size: .82rem; color: var(--gold); cursor: pointer;
+      user-select: none; display: inline-block;
+      transition: opacity .2s;
+    }
+    .agenda-setlist-toggle:hover { opacity: .75; }
+    .agenda-setlist-list {
+      margin-top: 10px; padding-left: 20px;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 3px 16px;
+    }
+    .agenda-setlist-list li { font-size: .82rem; color: var(--muted); line-height: 1.6; }
+    .agenda-setlist-list.hidden { display: none; }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Crème <span>Anglaise</span></div>
+  <ul class="nav-links">
+    <li><a href="#about">La Chorale</a></li>
+    <li><a href="#repertoire">Répertoire</a></li>
+    <li><a href="#galerie">Galerie</a></li>
+    <li><a href="#agenda">Agenda</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="#rejoindre" class="nav-cta">Nous rejoindre</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-staff">
+    <span class="note">♩</span>
+    <span class="note">♪</span>
+    <span class="note">♫</span>
+    <span class="note">♬</span>
+    <span class="note">𝄞</span>
+  </div>
+  <div class="hero-content">
+    <span class="hero-eyebrow">🎵 Chorale d'Évran & Dinan</span>
+    <h1 class="hero-title">
+      Crème<br>
+      <em>Anglaise</em>
+    </h1>
+    <p class="hero-sub">
+      Une chorale chaleureuse où se mêlent<br>
+      <strong>classiques anglais</strong> et <strong>variété française</strong>,<br>
+      le tout dans la bonne humeur !
+    </p>
+    <div class="hero-actions">
+      <a href="#rejoindre" class="btn-primary">🎤 Chanter avec nous</a>
+      <a href="#repertoire" class="btn-secondary">🎵 Notre répertoire</a>
+    </div>
+  </div>
+  <div class="scroll-hint" style="bottom:18px;">Découvrir</div>
+</section>
+
+<!-- À PROPOS -->
+<section id="about">
+  <div class="container">
+    <p class="section-label">Qui sommes-nous ?</p>
+    <h2 class="section-title">Une association,<br><em>une passion partagée</em></h2>
+    <p class="section-lead">Née d'un amour commun pour la chanson, notre chorale réunit des voix de tous horizons dans la joie et la convivialité.</p>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>
+          L'association <strong>Crème Anglaise</strong> rassemble des choristes passionnés dans le pays de <strong>Dinan-Évran</strong>. Que vous soyez chanteur aguerri ou simple amateur qui souhaite découvrir le plaisir du chant choral, vous êtes les bienvenus parmi nous.
+        </p>
+        <p>
+          Notre répertoire mêle habilement les <strong>grandes chansons anglaises</strong> — pop, folk, soul — et les <strong>pépites de la variété française</strong>, pour des concerts joyeux qui font chanter le public.
+        </p>
+        <p>
+          Les répétitions se déroulent dans une ambiance détendue et bienveillante. Pas besoin de lire la musique : l'envie de chanter et la bonne humeur suffisent !
+        </p>
+      </div>
+      <div class="about-cards">
+        <div class="about-card">
+          <div class="about-card-icon">📍</div>
+          <div class="about-card-info">
+            <h3>Secteur Évran – Dinan</h3>
+            <p>Répétitions hebdomadaires en Côtes-d'Armor</p>
+          </div>
+        </div>
+        <div class="about-card">
+          <div class="about-card-icon">🎤</div>
+          <div class="about-card-info">
+            <h3>Tous niveaux bienvenus</h3>
+            <p>Débutants comme confirmés, venez comme vous êtes</p>
+          </div>
+        </div>
+        <div class="about-card">
+          <div class="about-card-icon">🎵</div>
+          <div class="about-card-info">
+            <h3>Double répertoire</h3>
+            <p>Classiques anglais & variété française</p>
+          </div>
+        </div>
+        <div class="about-card">
+          <div class="about-card-icon">🎉</div>
+          <div class="about-card-info">
+            <h3>Concerts & événements</h3>
+            <p>Plusieurs spectacles par an, fêtes locales, associations</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RÉPERTOIRE -->
+<section id="repertoire" class="repertoire">
+  <div class="container">
+    <p class="section-label">Ce que l'on chante</p>
+    <h2 class="section-title">Notre <em>répertoire</em></h2>
+    <p class="section-lead">48 titres soigneusement arrangés pour nos voix — de la variété française aux grands classiques anglais, en passant par le gospel et la chanson internationale.</p>
+
+    <!-- Onglets -->
+    <div class="rep-tabs" role="tablist">
+      <button class="rep-tab active" onclick="showTab('all')" role="tab">🎵 Tout (48)</button>
+      <button class="rep-tab" onclick="showTab('fr')" role="tab">🇫🇷 Français (17)</button>
+      <button class="rep-tab" onclick="showTab('en')" role="tab">🇬🇧 Anglais (22)</button>
+      <button class="rep-tab" onclick="showTab('bilingual')" role="tab">🌍 Bilingues (7)</button>
+      <button class="rep-tab" onclick="showTab('other')" role="tab">🌐 Autres (2)</button>
+    </div>
+
+    <div class="rep-song-grid" id="songGrid"></div>
+
+    <p class="rep-total-note">🎼 <strong>48 titres</strong> au répertoire · Durée totale : <strong>2h25</strong></p>
+  </div>
+</section>
+
+<!-- GALERIE PHOTOS -->
+<section id="galerie" class="galerie">
+  <div class="container">
+    <p class="section-label">Moments de vie</p>
+    <h2 class="section-title">La chorale <em>en images</em></h2>
+    <p class="section-lead">Concerts, répétitions, sorties… retrouvez ici les coulisses et les grands moments de Crème Anglaise.</p>
+    <div class="gallery-grid">
+
+      <div class="gallery-item gallery-item--photo gallery-item--wide">
+        <img src="images/photo-3.jpg" alt="Concert en plein air — la chorale Crème Anglaise" loading="lazy" />
+        <div class="gallery-caption">Concert en plein air · Village breton</div>
+      </div>
+
+      <div class="gallery-item gallery-item--photo">
+        <img src="images/photo-2.jpg" alt="Concert dans l'église — chorale Crème Anglaise" loading="lazy" />
+        <div class="gallery-caption">Concert en église · Bretagne</div>
+      </div>
+
+      <div class="gallery-item gallery-item--photo">
+        <img src="images/photo-1.jpg" alt="Stand Crème Anglaise — inscription" loading="lazy" />
+        <div class="gallery-caption">Stand de présentation · Forum des associations</div>
+      </div>
+
+      <div class="gallery-item gallery-item--photo gallery-item--wide">
+        <img src="images/photo-4.jpg" alt="80e anniversaire de la Libération — La Rance Libérée, Évran 2024" loading="lazy" />
+        <div class="gallery-caption">80ème anniversaire de la Libération · La Rance Libérée — Évran, août 2024</div>
+      </div>
+
+      <div class="gallery-item gallery-item--placeholder">
+        <div class="gallery-item-icon">📸</div>
+        <div class="gallery-item-label">
+          <strong>Vos prochaines photos</strong>
+          Contactez-nous pour en savoir plus
+        </div>
+        <span class="gallery-upload-hint">À venir</span>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- VIDÉOS -->
+<section id="videos" style="background: var(--cream);">
+  <div class="container">
+    <p class="section-label">Écoutez-nous</p>
+    <h2 class="section-title">Nos <em>vidéos</em></h2>
+    <p class="section-lead">Quelques extraits de nos concerts et répétitions pour vous donner un avant-goût de l'ambiance Crème Anglaise.</p>
+
+    <div class="videos-grid">
+
+      <div class="video-card">
+        <video class="video-native" preload="metadata" controls playsinline>
+          <source src="videos/concert-1.mp4" type="video/mp4" />
+        </video>
+        <div class="video-info">
+          <h3>Concert · Extrait 1</h3>
+          <p>Chorale Crème Anglaise en performance</p>
+        </div>
+      </div>
+
+      <div class="video-card">
+        <video class="video-native" preload="metadata" controls playsinline>
+          <source src="videos/concert-2.mp4" type="video/mp4" />
+        </video>
+        <div class="video-info">
+          <h3>Concert · Extrait 2</h3>
+          <p>Chorale Crème Anglaise en performance</p>
+        </div>
+      </div>
+
+      <div class="video-card">
+        <video class="video-native" preload="metadata" controls playsinline>
+          <source src="videos/concert-3.mp4" type="video/mp4" />
+        </video>
+        <div class="video-info">
+          <h3>Concert · Extrait 3</h3>
+          <p>Chorale Crème Anglaise en performance</p>
+        </div>
+      </div>
+
+      <div class="video-card">
+        <video class="video-native" preload="metadata" controls playsinline>
+          <source src="videos/concert-4.mp4" type="video/mp4" />
+        </video>
+        <div class="video-info">
+          <h3>Concert · Extrait 4</h3>
+          <p>Chorale Crème Anglaise en performance</p>
+        </div>
+      </div>
+
+      <div class="video-card">
+        <video class="video-native" preload="metadata" controls playsinline>
+          <source src="videos/concert-5.mp4" type="video/mp4" />
+        </video>
+        <div class="video-info">
+          <h3>Concert · Extrait 5</h3>
+          <p>Chorale Crème Anglaise en performance</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- AGENDA -->
+<section id="agenda" class="agenda">
+  <div class="container">
+    <p class="section-label">Prochains événements</p>
+    <h2 class="section-title">Venez <em>nous écouter</em></h2>
+    <p class="section-lead">Concerts, fêtes locales, soirées associatives — nous chantons partout dans le pays de Dinan.</p>
+    <div class="agenda-list">
+
+      <div class="agenda-item agenda-past">
+        <div class="agenda-date">
+          <div class="day">23</div>
+          <div class="month">Mai 26</div>
+        </div>
+        <div class="agenda-info">
+          <h3>Concert à l'EHPAD d'Évran & St Pern</h3>
+          <p>📍 EHPAD Évran &amp; St Pern · Durée : 45 min · 15 titres</p>
+          <div class="agenda-setlist">
+            <span class="agenda-setlist-toggle" onclick="toggleSetlist(this)">🎵 Voir le programme ▾</span>
+            <ol class="agenda-setlist-list hidden">
+              <li>For me formidable</li><li>Sur le chemin des andes</li><li>Ave Maria</li>
+              <li>Les Copains d'abord</li><li>Armstrong</li><li>Cantique Jean Racine</li>
+              <li>Les gens qu'on aime</li><li>Les Mains d'or</li><li>Laissons entrer le soleil</li>
+              <li>Vois sur ton chemin</li><li>Hymne à l'amour</li><li>Santiano</li>
+              <li>Revival Song</li><li>You'll never walk Alone</li><li>The Rhythm of Life</li>
+            </ol>
+          </div>
+          <span class="tag">✅ Concert passé</span>
+        </div>
+      </div>
+
+      <div class="agenda-item agenda-past">
+        <div class="agenda-date">
+          <div class="day">30</div>
+          <div class="month">Mai 26</div>
+        </div>
+        <div class="agenda-info">
+          <h3>Concert à l'EHPAD d'Évran & St Pern</h3>
+          <p>📍 EHPAD Évran &amp; St Pern · Durée : 45 min · 15 titres</p>
+          <span class="tag">✅ Concert passé</span>
+        </div>
+      </div>
+
+      <div class="agenda-item agenda-upcoming">
+        <div class="agenda-date">
+          <div class="day">19</div>
+          <div class="month">Juin 26</div>
+        </div>
+        <div class="agenda-info">
+          <h3>Fête de la Musique</h3>
+          <p>📍 À confirmer · Durée : 42 min · 15 titres</p>
+          <div class="agenda-setlist">
+            <span class="agenda-setlist-toggle" onclick="toggleSetlist(this)">🎵 Voir le programme ▾</span>
+            <ol class="agenda-setlist-list hidden">
+              <li>For me formidable</li><li>Ain't no mountain high enough</li><li>Sur le chemin des andes</li>
+              <li>Blame it on the Boogie</li><li>Hit the Road Jack</li><li>Armstrong</li>
+              <li>I'm Still Standing</li><li>Aux Champs-Élysées / Waterloo Road</li><li>Santiano</li>
+              <li>Les Mains d'or</li><li>Laissons entrer le soleil</li><li>Vois sur ton chemin</li>
+              <li>Revival Song</li><li>You'll never walk Alone</li><li>The Rhythm of Life</li>
+            </ol>
+          </div>
+          <span class="tag">🎤 À venir</span>
+        </div>
+        <div class="agenda-action">
+          <a href="#contact" class="btn-small">Infos</a>
+        </div>
+      </div>
+
+      <div class="agenda-empty">
+        <p>🗓 D'autres dates en préparation — <a href="#contact" style="color:var(--gold);">contactez-nous</a> pour être informé de la programmation complète.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REJOINDRE -->
+<section id="rejoindre" class="rejoindre">
+  <div class="container">
+    <div class="rejoindre-inner">
+      <p class="section-label">Prêt à chanter ?</p>
+      <h2 class="section-title">Rejoignez<br><em>l'aventure</em></h2>
+      <p class="section-lead">La chorale Crème Anglaise accueille de nouveaux membres toute l'année. Aucune connaissance musicale préalable n'est exigée — juste de l'enthousiasme !</p>
+      <div class="rejoindre-grid">
+        <div class="rejoindre-card">
+          <div class="icon">📅</div>
+          <h3>Répétitions hebdomadaires</h3>
+          <p>Nous répétons chaque semaine dans une ambiance détendue. Les horaires sont communiqués à l'inscription.</p>
+        </div>
+        <div class="rejoindre-card">
+          <div class="icon">🎵</div>
+          <h3>Toutes les voix</h3>
+          <p>Soprano, alto, ténor ou basse — toutes les voix ont leur place dans notre ensemble.</p>
+        </div>
+        <div class="rejoindre-card">
+          <div class="icon">💰</div>
+          <h3>Cotisation annuelle</h3>
+          <p>Adhésion à l'association raisonnable, accessible à tous. Contactez-nous pour connaître le montant de la saison en cours.</p>
+        </div>
+        <div class="rejoindre-card">
+          <div class="icon">🤝</div>
+          <h3>Venez essayer !</h3>
+          <p>N'hésitez pas à venir à une première répétition à titre d'essai, sans engagement. Vous repartirez avec le sourire.</p>
+        </div>
+      </div>
+      <a href="#contact" class="btn-white">Je veux chanter avec vous !</a>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="contact">
+  <div class="container">
+    <p class="section-label">Parlons-nous</p>
+    <h2 class="section-title">Nous <em>contacter</em></h2>
+    <p class="section-lead">Une question, une envie de rejoindre la chorale, une demande pour un concert ? Écrivez-nous, nous vous répondrons avec plaisir.</p>
+    <div class="contact-grid">
+      <div class="contact-info">
+        <p>
+          L'association Crème Anglaise est basée dans le secteur d'Évran et Dinan, en Côtes-d'Armor. Nous sommes disponibles pour tout renseignement et serons ravis de vous accueillir.
+        </p>
+        <div class="contact-details">
+          <div class="contact-detail">
+            <div class="contact-detail-icon">📍</div>
+            <div class="contact-detail-text">
+              <strong>Secteur</strong>
+              <span>Évran – Dinan, Côtes-d'Armor (22)</span>
+            </div>
+          </div>
+          <div class="contact-detail">
+            <div class="contact-detail-icon">📧</div>
+            <div class="contact-detail-text">
+              <strong>E-mail</strong>
+              <span>contact@cremeanglaise-chorale.fr</span>
+            </div>
+          </div>
+          <div class="contact-detail">
+            <div class="contact-detail-icon">📱</div>
+            <div class="contact-detail-text">
+              <strong>Téléphone</strong>
+              <span>À préciser — contactez-nous par e-mail</span>
+            </div>
+          </div>
+          <div class="contact-detail">
+            <div class="contact-detail-icon">🎵</div>
+            <div class="contact-detail-text">
+              <strong>Répétitions</strong>
+              <span>Hebdomadaires — dates communiquées à l'inscription</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <form class="contact-form" onsubmit="handleSubmit(event)">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Prénom</label>
+            <input type="text" placeholder="Marie" required />
+          </div>
+          <div class="form-group">
+            <label>Nom</label>
+            <input type="text" placeholder="Dupont" required />
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Adresse e-mail</label>
+          <input type="email" placeholder="marie@exemple.fr" required />
+        </div>
+        <div class="form-group">
+          <label>Objet de votre message</label>
+          <select>
+            <option value="">Choisir…</option>
+            <option>Je souhaite rejoindre la chorale</option>
+            <option>Demande de concert / prestation</option>
+            <option>Question sur le répertoire</option>
+            <option>Autre</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Message</label>
+          <textarea placeholder="Bonjour, je souhaite en savoir plus sur…"></textarea>
+        </div>
+        <button type="submit" class="btn-submit">Envoyer le message 🎵</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Crème <span>Anglaise</span></div>
+  <p class="footer-tagline">Chorale associative — Évran & Dinan, Côtes-d'Armor</p>
+  <nav class="footer-links">
+    <a href="#about">La Chorale</a>
+    <a href="#repertoire">Répertoire</a>
+    <a href="#galerie">Galerie</a>
+    <a href="#videos">Vidéos</a>
+    <a href="#agenda">Agenda</a>
+    <a href="#rejoindre">Nous rejoindre</a>
+    <a href="#contact">Contact</a>
+  </nav>
+  <div class="footer-divider"></div>
+  <p class="footer-copy">© 2025 Association Crème Anglaise · Fait avec ♪ en Bretagne</p>
+</footer>
+
+<script>
+  // ── SONGS DATA ──
+  const songs = [
+    // Français
+    { title: "For me formidable", lang: "fr", flag: "🇫🇷" },
+    { title: "Sur le chemin des andes", lang: "fr", flag: "🇫🇷" },
+    { title: "Armstrong", lang: "fr", flag: "🇫🇷" },
+    { title: "Les Mains d'or", lang: "fr", flag: "🇫🇷" },
+    { title: "Laissons entrer le soleil", lang: "fr", flag: "🇫🇷" },
+    { title: "Santiano", lang: "fr", flag: "🇫🇷" },
+    { title: "Les gens qu'on aime", lang: "fr", flag: "🇫🇷" },
+    { title: "Cantique Jean Racine", lang: "fr", flag: "🇫🇷" },
+    { title: "Les Copains d'abord", lang: "fr", flag: "🇫🇷" },
+    { title: "Hymne à l'amour", lang: "fr", flag: "🇫🇷" },
+    { title: "Je te donne", lang: "fr", flag: "🇫🇷" },
+    { title: "J'ai demande à la lune", lang: "fr", flag: "🇫🇷" },
+    { title: "Mamma Mia (FR)", lang: "fr", flag: "🇫🇷" },
+    { title: "Sous le ciel de Paris", lang: "fr", flag: "🇫🇷" },
+    { title: "La Dame Brune", lang: "fr", flag: "🇫🇷" },
+    { title: "Le Pouvoir des fleurs", lang: "fr", flag: "🇫🇷" },
+    { title: "Quand on na que l'amour", lang: "fr", flag: "🇫🇷" },
+    // Anglais
+    { title: "Ain't no mountain high enough", lang: "en", flag: "🇬🇧" },
+    { title: "Blame it on the Boogie", lang: "en", flag: "🇬🇧" },
+    { title: "Hit the Road Jack", lang: "en", flag: "🇬🇧" },
+    { title: "I'm Still Standing", lang: "en", flag: "🇬🇧" },
+    { title: "Revival Song", lang: "en", flag: "🇬🇧" },
+    { title: "You'll never walk Alone", lang: "en", flag: "🇬🇧" },
+    { title: "The Rhythm of Life", lang: "en", flag: "🇬🇧" },
+    { title: "Ave Maria", lang: "en", flag: "🇬🇧" },
+    { title: "Armstrong (EN)", lang: "en", flag: "🇬🇧" },
+    { title: "Lean on Me", lang: "en", flag: "🇬🇧" },
+    { title: "Another Day of Sun", lang: "en", flag: "🇬🇧" },
+    { title: "Do you hear the people sing", lang: "en", flag: "🇬🇧" },
+    { title: "Hallelujah", lang: "en", flag: "🇬🇧" },
+    { title: "Stand by Me", lang: "en", flag: "🇬🇧" },
+    { title: "This Is Me", lang: "en", flag: "🇬🇧" },
+    { title: "Yellow", lang: "en", flag: "🇬🇧" },
+    { title: "Rolling in the deep", lang: "en", flag: "🇬🇧" },
+    { title: "Shallow", lang: "en", flag: "🇬🇧" },
+    { title: "Fields of Gold", lang: "en", flag: "🇬🇧" },
+    { title: "Oh Happy Day", lang: "en", flag: "🇬🇧" },
+    { title: "In Memoriam", lang: "en", flag: "🇬🇧" },
+    { title: "Your Song", lang: "en", flag: "🇬🇧" },
+    { title: "Malaika", lang: "en", flag: "🇬🇧" },
+    // Bilingues (FR/EN)
+    { title: "Vois sur ton chemin", lang: "bilingual", flag: "🌍" },
+    { title: "Aux Champs-Élysées / Waterloo Road", lang: "bilingual", flag: "🌍" },
+    { title: "La Mer / Beyond the sea", lang: "bilingual", flag: "🌍" },
+    { title: "Les Feuilles mortes / Autumn Leaves", lang: "bilingual", flag: "🌍" },
+    { title: "Vivre pour les meilleurs", lang: "bilingual", flag: "🌍" },
+    { title: "The Joker & The Queen", lang: "bilingual", flag: "🌍" },
+    { title: "Le lion est mort ce soir", lang: "bilingual", flag: "🌍" },
+    // Autres langues
+    { title: "El condor pasa / Sur le chemin des andes", lang: "other", flag: "🌐" },
+    { title: "Vois sur ton chemin (latin)", lang: "other", flag: "🌐" },
+  ];
+
+  function renderSongs(filter) {
+    const grid = document.getElementById('songGrid');
+    const list = filter === 'all' ? songs : songs.filter(s => s.lang === filter);
+    grid.innerHTML = list.map((s, i) =>
+      `<div class="song-card fade-in" style="animation-delay:${i * 0.03}s">
+        <span class="song-flag">${s.flag}</span>
+        <span class="song-title">${s.title}</span>
+      </div>`
+    ).join('');
+  }
+
+  function showTab(filter) {
+    document.querySelectorAll('.rep-tab').forEach(t => t.classList.remove('active'));
+    event.currentTarget.classList.add('active');
+    renderSongs(filter);
+  }
+
+  // Init
+  renderSongs('all');
+
+  // Setlist toggle
+  function toggleSetlist(el) {
+    const list = el.nextElementSibling;
+    list.classList.toggle('hidden');
+    el.textContent = list.classList.contains('hidden')
+      ? el.textContent.replace('▴','▾')
+      : el.textContent.replace('▾','▴');
+  }
+
+  // Smooth reveal on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.about-card, .agenda-item, .rejoindre-card, .video-card, .gallery-item').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(24px)';
+    el.style.transition = 'opacity .5s ease, transform .5s ease';
+    observer.observe(el);
+  });
+
+  // Form submit
+  function handleSubmit(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('.btn-submit');
+    btn.textContent = '✓ Message envoyé !';
+    btn.style.background = '#4CAF50';
+    setTimeout(() => {
+      btn.textContent = 'Envoyer le message 🎵';
+      btn.style.background = '';
+      e.target.reset();
+    }, 3000);
+  }
+</script>
+
+</body>
+</html>
