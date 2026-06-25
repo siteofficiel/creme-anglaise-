@@ -21,8 +21,8 @@
     html, body {
       height: 100%;
       font-family: 'DM Sans', sans-serif;
-      background: var(--cream);
-      color: var(--deep);
+      background: var(--deep);
+      color: var(--cream);
       overflow: hidden;
     }
 
@@ -61,14 +61,14 @@
 
     .note {
       position: absolute;
-      font-size: 2rem; opacity: .10; color: var(--gold);
+      font-size: 2rem; opacity: .18; color: var(--gold);
       animation: float 6s ease-in-out infinite;
       user-select: none;
     }
     .note:nth-child(1) { top: 12%; left: 6%;  animation-delay: 0s;   font-size: 2.5rem; }
     .note:nth-child(2) { top: 20%; right: 8%; animation-delay: 1.2s; font-size: 1.8rem; }
     .note:nth-child(3) { bottom: 28%; left: 10%; animation-delay: 2.4s; }
-    .note:nth-child(4) { bottom: 18%; right: 12%; animation-delay: 0.6s; font-size: 3rem; opacity: .07; }
+    .note:nth-child(4) { bottom: 18%; right: 12%; animation-delay: 0.6s; font-size: 3rem; opacity: .12; }
     .note:nth-child(5) { top: 52%; left: 3%;  animation-delay: 3s;   font-size: 1.5rem; }
     .note:nth-child(6) { top: 70%; right: 5%; animation-delay: 1.8s; font-size: 2rem; }
     @keyframes float {
@@ -92,7 +92,7 @@
       font-family: 'Playfair Display', serif;
       font-size: clamp(3rem, 10vw, 6rem);
       line-height: 1.05;
-      color: var(--brown);
+      color: var(--cream);
       margin-bottom: 8px;
     }
     .splash-title em {
@@ -101,7 +101,7 @@
     }
 
     .splash-tagline {
-      font-size: 1rem; color: var(--muted); font-weight: 300;
+      font-size: 1rem; color: rgba(253,246,236,.65); font-weight: 300;
       margin: 18px 0 48px;
       line-height: 1.7;
     }
@@ -109,7 +109,7 @@
     /* Language chooser label */
     .lang-label {
       font-size: .72rem; letter-spacing: .18em; text-transform: uppercase;
-      color: var(--muted); margin-bottom: 20px;
+      color: rgba(253,246,236,.45); margin-bottom: 20px;
     }
 
     /* Language buttons */
@@ -127,18 +127,19 @@
       gap: 12px;
       padding: 28px 40px;
       border-radius: 16px;
-      border: 2px solid rgba(61,43,15,.12);
-      background: var(--white);
+      border: 1px solid rgba(200,150,12,.35);
+      background: rgba(255,255,255,.06);
       cursor: pointer;
       text-decoration: none;
-      color: var(--brown);
-      transition: border-color .25s, box-shadow .25s, transform .2s;
-      box-shadow: 0 2px 12px rgba(0,0,0,.04);
+      color: var(--cream);
+      transition: border-color .25s, box-shadow .25s, transform .2s, background .25s;
+      box-shadow: 0 2px 12px rgba(0,0,0,.2);
       min-width: 180px;
     }
     .lang-btn:hover {
       border-color: var(--gold);
-      box-shadow: 0 8px 32px rgba(200,150,12,.18);
+      background: rgba(200,150,12,.12);
+      box-shadow: 0 8px 32px rgba(200,150,12,.25);
       transform: translateY(-4px);
     }
 
@@ -147,12 +148,12 @@
     .lang-name {
       font-family: 'Playfair Display', serif;
       font-size: 1.3rem;
-      color: var(--brown);
+      color: var(--cream);
     }
 
     .lang-sub {
       font-size: .8rem;
-      color: var(--muted);
+      color: rgba(253,246,236,.55);
       font-weight: 300;
     }
 
@@ -160,7 +161,7 @@
     .lang-divider {
       display: flex;
       align-items: center;
-      color: rgba(122,98,69,.3);
+      color: rgba(200,150,12,.4);
       font-size: 1.2rem;
       padding: 0 4px;
       align-self: center;
@@ -173,7 +174,7 @@
       left: 0; right: 0;
       text-align: center;
       font-size: .75rem;
-      color: rgba(122,98,69,.5);
+      color: rgba(253,246,236,.3);
       letter-spacing: .05em;
     }
 
