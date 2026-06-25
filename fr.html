@@ -19,19 +19,19 @@
       position:fixed; top:0; left:0; right:0; z-index:100;
       display:flex; align-items:center; justify-content:space-between;
       padding:18px 48px;
-      background:rgba(253,246,236,.92); backdrop-filter:blur(12px);
-      border-bottom:1px solid rgba(200,150,12,.18);
+      background:rgba(26,18,8,.94); backdrop-filter:blur(12px);
+      border-bottom:1px solid rgba(200,150,12,.35);
     }
-    .nav-logo { font-family:'Playfair Display',serif; font-size:1.35rem; font-weight:700; color:var(--brown); letter-spacing:.02em; }
+    .nav-logo { font-family:'Playfair Display',serif; font-size:1.35rem; font-weight:700; color:var(--cream); letter-spacing:.02em; }
     .nav-logo span { color:var(--gold); }
     .nav-links { display:flex; gap:32px; list-style:none; }
-    .nav-links a { text-decoration:none; font-size:.9rem; font-weight:500; color:var(--brown); letter-spacing:.04em; transition:color .2s; }
+    .nav-links a { text-decoration:none; font-size:.9rem; font-weight:500; color:rgba(253,246,236,.85); letter-spacing:.04em; transition:color .2s; }
     .nav-links a:hover { color:var(--gold); }
     .nav-right { display:flex; align-items:center; gap:16px; }
-    .nav-lang { font-size:.82rem; color:var(--muted); text-decoration:none; padding:6px 14px; border-radius:50px; border:1px solid rgba(200,150,12,.25); transition:border-color .2s, color .2s; }
+    .nav-lang { font-size:.82rem; color:rgba(253,246,236,.6); text-decoration:none; padding:6px 14px; border-radius:50px; border:1px solid rgba(200,150,12,.4); transition:border-color .2s, color .2s; }
     .nav-lang:hover { border-color:var(--gold); color:var(--gold); }
     .nav-cta { background:var(--gold); color:var(--white); border:none; padding:10px 24px; border-radius:50px; font-family:'DM Sans',sans-serif; font-size:.88rem; font-weight:500; cursor:pointer; transition:background .2s,transform .15s; text-decoration:none; }
-    .nav-cta:hover { background:var(--brown); transform:translateY(-1px); }
+    .nav-cta:hover { background:#a07808; transform:translateY(-1px); }
 
     /* HERO */
     .hero { min-height:100vh; display:flex; align-items:center; justify-content:center; text-align:center; padding:120px 24px 80px; position:relative; overflow:hidden; }
@@ -472,7 +472,7 @@
           </div>
           <div class="contact-detail">
             <div class="contact-detail-icon">📧</div>
-            <div class="contact-detail-text"><strong>E-mail</strong><span>c.a.chorale22@gmail.com</span></div>
+            <div class="contact-detail-text"><strong>E-mail</strong><span><a href="mailto:c.a.chorale22@gmail.com" style="color:inherit;text-decoration:underline;">c.a.chorale22@gmail.com</a></span></div>
           </div>
           <div class="contact-detail">
             <div class="contact-detail-icon">🌐</div>
@@ -632,13 +632,30 @@
 
   function handleSubmit(e) {
     e.preventDefault();
-    const btn = e.target.querySelector('.btn-submit');
-    btn.textContent = '✓ Message envoyé !';
+    const form = e.target;
+    const inputs = form.querySelectorAll('input, select, textarea');
+    const prenom   = inputs[0].value.trim();
+    const nom      = inputs[1].value.trim();
+    const email    = inputs[2].value.trim();
+    const objet    = inputs[3].value || 'Message depuis le site';
+    const message  = inputs[4].value.trim();
+
+    const sujet = encodeURIComponent('[Crème Anglaise] ' + objet);
+    const corps = encodeURIComponent(
+      'Prénom : ' + prenom + '\n' +
+      'Nom : ' + nom + '\n' +
+      'E-mail : ' + email + '\n\n' +
+      message
+    );
+
+    window.location.href = 'mailto:c.a.chorale22@gmail.com?subject=' + sujet + '&body=' + corps;
+
+    const btn = form.querySelector('.btn-submit');
+    btn.textContent = '✓ Ouverture de votre messagerie…';
     btn.style.background = '#4CAF50';
     setTimeout(() => {
       btn.textContent = 'Envoyer le message 🎵';
       btn.style.background = '';
-      e.target.reset();
     }, 3000);
   }
 </script>
