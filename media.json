@@ -2,8 +2,8 @@
   "photos": [
     {
       "file": "images/photo-3.jpg",
-      "caption_fr": "Concert en plein air · Village breton",
-      "caption_en": "Outdoor concert · Breton village",
+      "caption_fr": "Concert dans une église · Village breton",
+      "caption_en": "Church concert · Breton village",
       "wide": true
     },
     {
@@ -20,8 +20,8 @@
     },
     {
       "file": "images/photo-4.jpg",
-      "caption_fr": "Concert en église · Bretagne",
-      "caption_en": "Church concert · Brittany",
+      "caption_fr": "Concert en pleine air · Bretagne",
+      "caption_en": "Outdoor concert · Brittany",
       "wide": true
     },
     {
