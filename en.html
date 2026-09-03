@@ -175,6 +175,10 @@
     .gallery-item--photo.img-fallback::after { content:'♪'; position:absolute; top:50%; left:50%; transform:translate(-50%,-60%); font-size:2.6rem; color:rgba(200,150,12,.5); }
     .gallery-caption { position:absolute; bottom:0; left:0; right:0; background:linear-gradient(transparent,rgba(26,18,8,.82)); color:rgba(253,246,236,.9); padding:28px 16px 14px; font-size:.8rem; font-weight:400; letter-spacing:.03em; transform:translateY(4px); opacity:0; transition:opacity .3s,transform .3s; }
     .gallery-item--photo:hover .gallery-caption { opacity:1; transform:translateY(0); }
+    @media (hover:none) {
+      .gallery-caption { opacity:1; transform:translateY(0); }
+      .gallery-item--photo img { opacity:1; }
+    }
     .gallery-item--placeholder { border-radius:var(--radius); background:rgba(200,150,12,.06); border:2px dashed rgba(200,150,12,.25); display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:40px 24px; min-height:220px; position:relative; transition:border-color .2s,background .2s; }
     .gallery-item--placeholder:hover { border-color:var(--gold); background:rgba(200,150,12,.13); }
     .gallery-item-icon { font-size:2.8rem; margin-bottom:14px; opacity:.5; }
@@ -292,8 +296,9 @@
     @media (max-width: 480px) {
       section { padding-block:clamp(56px,14vw,72px); }
       .gallery-grid { grid-template-columns:1fr; }
-      .gallery-item--photo,.gallery-item--placeholder { min-height:200px; }
-      .gallery-item--wide { min-height:240px; }
+      .gallery-item--placeholder { min-height:200px; }
+      .gallery-item--photo, .gallery-item--photo.gallery-item--wide { min-height:0; }
+      .gallery-item--photo img { height:auto; max-height:none; }
       .agenda-item { grid-template-columns:56px 1fr; }
       .btn-primary,.btn-secondary { width:100%; justify-content:center; }
       .hero-actions { width:100%; }
@@ -759,16 +764,16 @@
       : el.textContent.replace('▾','▴');
   }
 
-  const observer = new IntersectionObserver((entries) => {
+  const observer = ('IntersectionObserver' in window) ? new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         entry.target.style.opacity = '1';
         entry.target.style.transform = 'translateY(0)';
       }
     });
-  }, { threshold: 0.1 });
+  }, { threshold: 0.1 }) : null;
 
-  document.querySelectorAll('.about-card, .agenda-item, .rejoindre-card, .video-card, .gallery-item').forEach(el => {
+  if (observer) document.querySelectorAll('.about-card, .agenda-item, .rejoindre-card, .video-card, .gallery-item').forEach(el => {
     el.style.opacity = '0';
     el.style.transform = 'translateY(24px)';
     el.style.transition = 'opacity .5s ease, transform .5s ease';
@@ -845,6 +850,7 @@
       }
 
       /* --- Réactiver l'animation d'apparition sur les nouveaux éléments --- */
+      if (!('IntersectionObserver' in window)) return;
       var obs = new IntersectionObserver(function (entries) {
         entries.forEach(function (entry) {
           if (entry.isIntersecting) {
