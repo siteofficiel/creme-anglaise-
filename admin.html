@@ -161,6 +161,7 @@
           <li>Permissions → Repository permissions → <strong>Contents : Read and write</strong></li>
           <li>Cliquez « Generate token » et copiez-le ici.</li>
         </ol>
+        <p style="margin-top:10px;">⚠️ L'erreur « Resource not accessible by personal access token » signifie que le jeton n'a pas le droit d'écriture : vérifiez bien l'étape <strong>Contents : Read and write</strong> et que le dépôt <em>creme-anglaise-</em> est sélectionné. Si vous utilisez un jeton « classic », cochez la case <strong>repo</strong> entière.</p>
       </div>
     </div>
   </div>
@@ -280,6 +281,17 @@ function hideProgress() { $('progressOverlay').classList.add('hidden'); }
 function setDirty(d) { dirty = d; $('savebar').classList.toggle('visible', d); }
 function esc(s) { return (s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
+/* Traduit les erreurs GitHub techniques en messages clairs */
+function friendlyError(msg, status) {
+  msg = msg || '';
+  if (/resource not accessible/i.test(msg)) {
+    return 'Votre jeton n\'a pas le droit d\'écriture sur le dépôt. Créez un nouveau jeton "Fine-grained" : github.com → Settings → Developer settings → Fine-grained tokens → Repository access : Only select repositories → ' + REPO + ' → Permissions → Contents : Read and write.';
+  }
+  if (/bad credentials/i.test(msg)) return 'Jeton invalide ou expiré — reconnectez-vous avec un nouveau jeton.';
+  if (/too large/i.test(msg)) return 'Fichier trop volumineux pour l\'API GitHub — compressez-le d\'abord.';
+  return msg || ('Erreur ' + status);
+}
+
 function gh(path, opts) {
   opts = opts || {};
   opts.headers = Object.assign({
@@ -303,6 +315,15 @@ async function login() {
     if (!r.ok) throw new Error('Erreur GitHub (' + r.status + ').');
     const repo = await r.json();
     if (!repo.permissions || !repo.permissions.push) throw new Error('Ce jeton n\'a pas la permission d\'écriture (Contents : Read and write).');
+    /* Test réel du droit d'écriture du jeton (création d'un blob invisible, sans effet sur le site).
+       Nécessaire car GitHub renvoie les droits de l'utilisateur, pas ceux du jeton. */
+    const wTest = await gh('/repos/' + OWNER + '/' + REPO + '/git/blobs', {
+      method: 'POST',
+      body: JSON.stringify({ content: 'test', encoding: 'utf-8' })
+    });
+    if (wTest.status === 403 || wTest.status === 404) {
+      throw new Error('Votre jeton permet la lecture mais PAS l\'écriture. Recréez un jeton "Fine-grained" avec : Repository access → Only select repositories → ' + REPO + ', puis Permissions → Contents → Read and write.');
+    }
     if ($('rememberToken').checked) localStorage.setItem('ca_admin_token', TOKEN);
     else sessionStorage.setItem('ca_admin_token', TOKEN);
     await loadMedia();
@@ -477,7 +498,7 @@ async function uploadFiles(files, kind) {
         method: 'PUT',
         body: JSON.stringify({ message: 'Ajout ' + (isPhoto ? 'photo' : 'vidéo') + ' : ' + file.name, content: b64, branch: BRANCH })
       });
-      if (!r.ok) { const e = await r.json().catch(() => ({})); throw new Error(e.message || 'Erreur ' + r.status); }
+      if (!r.ok) { const e = await r.json().catch(() => ({})); throw new Error(friendlyError(e.message, r.status)); }
       if (isPhoto) {
         media.photos.push({ file: path, caption_fr: 'Nouvelle photo', caption_en: 'New photo', wide: false });
       } else {
@@ -529,7 +550,7 @@ async function renameMedia(kind, i) {
       method: 'PUT',
       body: JSON.stringify({ message: 'Renommage : ' + oldName + ' → ' + input, content: content, branch: BRANCH })
     });
-    if (!rPut.ok) { const e = await rPut.json().catch(() => ({})); throw new Error(e.message || 'Erreur ' + rPut.status); }
+    if (!rPut.ok) { const e = await rPut.json().catch(() => ({})); throw new Error(friendlyError(e.message, rPut.status)); }
     // 3. supprimer l'ancien fichier
     const rDel = await gh('/repos/' + OWNER + '/' + REPO + '/contents/' + item.file, {
       method: 'DELETE',
@@ -562,7 +583,7 @@ async function deleteMedia(kind, i) {
         method: 'DELETE',
         body: JSON.stringify({ message: 'Suppression : ' + item.file, sha: info.sha, branch: BRANCH })
       });
-      if (!rDel.ok) { const e = await rDel.json().catch(() => ({})); throw new Error(e.message || 'Erreur ' + rDel.status); }
+      if (!rDel.ok) { const e = await rDel.json().catch(() => ({})); throw new Error(friendlyError(e.message, rDel.status)); }
     }
     media[kind].splice(i, 1);
     await saveMediaJsonSilent('Suppression de ' + item.file);
@@ -591,7 +612,7 @@ async function saveMediaJsonSilent(message) {
       return;
     }
   }
-  if (!r.ok) { const e = await r.json().catch(() => ({})); throw new Error(e.message || 'Erreur ' + r.status); }
+  if (!r.ok) { const e = await r.json().catch(() => ({})); throw new Error(friendlyError(e.message, r.status)); }
   mediaSha = (await r.json()).content.sha;
 }
 
