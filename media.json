@@ -1,0 +1,65 @@
+{
+  "photos": [
+    {
+      "file": "images/photo-3.jpg",
+      "caption_fr": "Concert en plein air · Village breton",
+      "caption_en": "Outdoor concert · Breton village",
+      "wide": true
+    },
+    {
+      "file": "images/photo-2.jpg",
+      "caption_fr": "Stand de présentation · Forum des associations",
+      "caption_en": "Presentation stand · Associations fair",
+      "wide": false
+    },
+    {
+      "file": "images/photo-1.jpg",
+      "caption_fr": "80ème anniversaire de la Libération · La Rance Libérée — Évran, août 2024",
+      "caption_en": "80th anniversary of Liberation · La Rance Libérée — Évran, August 2024",
+      "wide": false
+    },
+    {
+      "file": "images/photo-4.jpg",
+      "caption_fr": "Concert en église · Bretagne",
+      "caption_en": "Church concert · Brittany",
+      "wide": true
+    }
+  ],
+  "videos": [
+    {
+      "file": "videos/concert-1.mp4",
+      "title_fr": "Concert · Extrait 1",
+      "title_en": "Concert · Clip 1",
+      "desc_fr": "Chorale Crème Anglaise en performance",
+      "desc_en": "Crème Anglaise choir in performance"
+    },
+    {
+      "file": "videos/concert-2.mp4",
+      "title_fr": "Concert · Extrait 2",
+      "title_en": "Concert · Clip 2",
+      "desc_fr": "Chorale Crème Anglaise en performance",
+      "desc_en": "Crème Anglaise choir in performance"
+    },
+    {
+      "file": "videos/concert-3.mp4",
+      "title_fr": "Concert · Extrait 3",
+      "title_en": "Concert · Clip 3",
+      "desc_fr": "Chorale Crème Anglaise en performance",
+      "desc_en": "Crème Anglaise choir in performance"
+    },
+    {
+      "file": "videos/concert-4.mp4",
+      "title_fr": "Concert · Extrait 4",
+      "title_en": "Concert · Clip 4",
+      "desc_fr": "Chorale Crème Anglaise en performance",
+      "desc_en": "Crème Anglaise choir in performance"
+    },
+    {
+      "file": "videos/concert-5.mp4",
+      "title_fr": "Concert · Extrait 5",
+      "title_en": "Concert · Clip 5",
+      "desc_fr": "Chorale Crème Anglaise en performance",
+      "desc_en": "Crème Anglaise choir in performance"
+    }
+  ]
+}

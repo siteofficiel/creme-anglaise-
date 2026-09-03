@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Espace Administrateur – Crème Anglaise</title>
+  <link rel="icon" href="favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32.png" />
+  <link rel="icon" type="image/png" sizes="48x48" href="images/favicon-48.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="images/icon-192.png" />
+  <link rel="apple-touch-icon" href="images/apple-touch-icon.png" />
+  <meta name="theme-color" content="#1A1208" />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+  :root {
+    --cream:#FDF6EC; --gold:#C8960C; --deep:#1A1208; --brown:#3D2B0F;
+    --soft:#F0E4CC; --muted:#7A6245; --white:#FFF;
+    --ok:#3d8b40; --err:#c0392b; --radius:14px;
+  }
+  body { font-family:'DM Sans',sans-serif; background:var(--cream); color:var(--brown); min-height:100vh; }
+  h1,h2,h3 { font-family:'Playfair Display',serif; }
+
+  header.admin-header { background:var(--deep); color:var(--cream); padding:18px clamp(16px,4vw,40px); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; }
+  .admin-logo { font-family:'Playfair Display',serif; font-size:1.3rem; }
+  .admin-logo span { color:var(--gold); font-style:italic; }
+  .admin-badge { font-size:.7rem; letter-spacing:.12em; text-transform:uppercase; background:rgba(200,150,12,.18); color:var(--gold); padding:4px 10px; border-radius:20px; margin-left:10px; }
+  .header-actions { display:flex; gap:10px; align-items:center; }
+  .btn { display:inline-flex; align-items:center; gap:8px; border:none; cursor:pointer; font-family:'DM Sans',sans-serif; font-size:.85rem; font-weight:500; padding:10px 18px; border-radius:30px; transition:all .2s; text-decoration:none; }
+  .btn-gold { background:var(--gold); color:var(--deep); }
+  .btn-gold:hover { background:#dfa90f; transform:translateY(-1px); }
+  .btn-ghost { background:transparent; color:var(--cream); border:1px solid rgba(253,246,236,.3); }
+  .btn-ghost:hover { border-color:var(--gold); color:var(--gold); }
+  .btn-danger { background:transparent; color:var(--err); border:1px solid rgba(192,57,43,.4); padding:6px 12px; font-size:.75rem; }
+  .btn-danger:hover { background:var(--err); color:#fff; }
+  .btn-small { padding:6px 12px; font-size:.75rem; background:var(--soft); color:var(--brown); border:1px solid rgba(122,98,69,.25); }
+  .btn-small:hover { border-color:var(--gold); }
+  .btn:disabled { opacity:.5; cursor:not-allowed; transform:none; }
+
+  main { max-width:1100px; margin:0 auto; padding:clamp(20px,4vw,48px) clamp(16px,4vw,32px) 80px; }
+
+  /* ---- Login ---- */
+  .login-card { max-width:520px; margin:8vh auto 0; background:var(--white); border-radius:var(--radius); padding:clamp(28px,5vw,48px); box-shadow:0 10px 40px rgba(61,43,15,.12); }
+  .login-card h1 { font-size:1.6rem; margin-bottom:8px; }
+  .login-card h1 em { color:var(--gold); }
+  .login-card p.lead { color:var(--muted); font-size:.9rem; line-height:1.6; margin-bottom:24px; }
+  label { display:block; font-size:.78rem; font-weight:500; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); margin:16px 0 6px; }
+  input[type=text], input[type=password], textarea, select {
+    width:100%; padding:12px 14px; border:1.5px solid rgba(122,98,69,.3); border-radius:10px;
+    font-family:'DM Sans',sans-serif; font-size:.92rem; color:var(--brown); background:var(--cream); outline:none; transition:border-color .2s;
+  }
+  input:focus, textarea:focus { border-color:var(--gold); }
+  .help-box { margin-top:22px; background:rgba(200,150,12,.08); border:1px solid rgba(200,150,12,.25); border-radius:10px; padding:16px 18px; font-size:.82rem; line-height:1.65; color:var(--brown); }
+  .help-box strong { color:var(--gold); }
+  .help-box ol { margin:8px 0 0 18px; }
+  .help-box a { color:var(--gold); }
+  .remember-row { display:flex; align-items:center; gap:8px; margin-top:14px; font-size:.82rem; color:var(--muted); }
+
+  /* ---- Dashboard ---- */
+  .hidden { display:none !important; }
+  .section-card { background:var(--white); border-radius:var(--radius); padding:clamp(20px,3.5vw,36px); box-shadow:0 6px 24px rgba(61,43,15,.08); margin-bottom:32px; }
+  .section-head { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; margin-bottom:20px; }
+  .section-head h2 { font-size:1.35rem; }
+  .section-head h2 em { color:var(--gold); }
+  .section-head .count { font-size:.78rem; color:var(--muted); }
+
+  .dropzone { border:2px dashed rgba(200,150,12,.4); border-radius:var(--radius); padding:34px 20px; text-align:center; cursor:pointer; transition:all .2s; margin-bottom:22px; background:rgba(200,150,12,.04); }
+  .dropzone:hover, .dropzone.dragover { border-color:var(--gold); background:rgba(200,150,12,.12); }
+  .dropzone .dz-icon { font-size:2.2rem; margin-bottom:8px; }
+  .dropzone p { font-size:.88rem; color:var(--muted); }
+  .dropzone p strong { color:var(--brown); }
+  .dropzone .dz-hint { font-size:.72rem; margin-top:6px; color:var(--muted); opacity:.8; }
+
+  .media-list { display:flex; flex-direction:column; gap:14px; }
+  .media-row { display:flex; gap:16px; align-items:flex-start; background:var(--cream); border:1px solid rgba(122,98,69,.15); border-radius:12px; padding:14px; flex-wrap:wrap; }
+  .media-thumb { width:150px; height:100px; border-radius:8px; overflow:hidden; background:var(--deep); flex-shrink:0; display:flex; align-items:center; justify-content:center; color:var(--gold); font-size:1.6rem; }
+  .media-thumb img, .media-thumb video { width:100%; height:100%; object-fit:cover; }
+  .media-fields { flex:1; min-width:240px; }
+  .media-fields label { margin-top:8px; }
+  .media-fields label:first-child { margin-top:0; }
+  .media-file { font-size:.72rem; color:var(--muted); margin-bottom:6px; word-break:break-all; }
+  .media-actions { display:flex; flex-direction:column; gap:8px; align-items:stretch; min-width:110px; }
+  .wide-row { display:flex; align-items:center; gap:8px; font-size:.8rem; color:var(--muted); margin-top:10px; }
+
+  .savebar { position:fixed; bottom:0; left:0; right:0; background:var(--deep); padding:14px clamp(16px,4vw,40px); display:flex; align-items:center; justify-content:space-between; gap:14px; transform:translateY(110%); transition:transform .3s; z-index:50; flex-wrap:wrap; }
+  .savebar.visible { transform:translateY(0); }
+  .savebar p { color:var(--cream); font-size:.85rem; }
+
+  .toast { position:fixed; top:18px; right:18px; z-index:100; display:flex; flex-direction:column; gap:8px; }
+  .toast-item { background:var(--deep); color:var(--cream); padding:12px 18px; border-radius:10px; font-size:.85rem; box-shadow:0 6px 20px rgba(0,0,0,.25); border-left:4px solid var(--gold); animation:slideIn .3s ease; max-width:340px; }
+  .toast-item.ok { border-left-color:var(--ok); }
+  .toast-item.err { border-left-color:var(--err); }
+  @keyframes slideIn { from { opacity:0; transform:translateX(30px);} to { opacity:1; transform:translateX(0);} }
+
+  .progress-overlay { position:fixed; inset:0; background:rgba(26,18,8,.75); z-index:90; display:flex; align-items:center; justify-content:center; }
+  .progress-card { background:var(--white); border-radius:var(--radius); padding:34px 44px; text-align:center; max-width:400px; }
+  .progress-card .spin { font-size:2rem; display:inline-block; animation:spin 1.4s linear infinite; }
+  @keyframes spin { to { transform:rotate(360deg);} }
+  .progress-card p { margin-top:12px; font-size:.9rem; color:var(--muted); }
+
+  .empty-msg { text-align:center; color:var(--muted); font-size:.88rem; padding:20px; }
+  footer.admin-footer { text-align:center; padding:26px; font-size:.75rem; color:var(--muted); }
+  @media (max-width:600px) {
+    .media-row { flex-direction:column; }
+    .media-thumb { width:100%; height:160px; }
+    .media-actions { flex-direction:row; }
+  }
+</style>
+</head>
+<body>
+
+<header class="admin-header">
+  <div class="admin-logo">Crème <span>Anglaise</span><span class="admin-badge">Espace Admin</span></div>
+  <div class="header-actions">
+    <a class="btn btn-ghost" href="fr.html" target="_blank">👁 Voir le site</a>
+    <button class="btn btn-ghost hidden" id="logoutBtn" onclick="logout()">Se déconnecter</button>
+  </div>
+</header>
+
+<main>
+
+  <!-- ========== MOT DE PASSE ========== -->
+  <div id="pwdView">
+    <div class="login-card">
+      <h1>Espace <em>administrateur</em></h1>
+      <p class="lead">Cet espace est réservé aux membres autorisés de l'association. Veuillez saisir le mot de passe administrateur.</p>
+      <label for="pwdInput">Mot de passe</label>
+      <input type="password" id="pwdInput" placeholder="••••••••••••" autocomplete="off" />
+      <div style="margin-top:20px;">
+        <button class="btn btn-gold" id="pwdBtn" onclick="checkPassword()">🔓 Entrer</button>
+      </div>
+      <p id="pwdError" class="hidden" style="margin-top:14px;color:var(--err);font-size:.85rem;">✖ Mot de passe incorrect.</p>
+    </div>
+  </div>
+
+  <!-- ========== LOGIN ========== -->
+  <div id="loginView" class="hidden">
+    <div class="login-card">
+      <h1>Connexion <em>administrateur</em></h1>
+      <p class="lead">Cet espace vous permet d'ajouter, modifier et supprimer les photos et vidéos du site. Les fichiers sont enregistrés directement dans le dépôt GitHub — le site se met à jour automatiquement en 1 à 2 minutes.</p>
+
+      <label for="tokenInput">Jeton d'accès GitHub (token)</label>
+      <input type="password" id="tokenInput" placeholder="github_pat_… ou ghp_…" autocomplete="off" />
+
+      <div class="remember-row">
+        <input type="checkbox" id="rememberToken" />
+        <label for="rememberToken" style="margin:0; text-transform:none; letter-spacing:0; font-size:.82rem;">Se souvenir de moi sur cet appareil</label>
+      </div>
+
+      <div style="margin-top:20px;">
+        <button class="btn btn-gold" id="loginBtn" onclick="login()">🔑 Se connecter</button>
+      </div>
+
+      <div class="help-box">
+        <strong>Comment obtenir un jeton ?</strong>
+        <ol>
+          <li>Connectez-vous sur <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">github.com → Settings → Fine-grained tokens</a></li>
+          <li>Nom : « Admin site chorale » · Expiration : 1 an</li>
+          <li>Repository access : <strong>Only select repositories</strong> → choisissez <em>creme-anglaise-</em></li>
+          <li>Permissions → Repository permissions → <strong>Contents : Read and write</strong></li>
+          <li>Cliquez « Generate token » et copiez-le ici.</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== DASHBOARD ========== -->
+  <div id="dashView" class="hidden">
+
+    <!-- PHOTOS -->
+    <div class="section-card">
+      <div class="section-head">
+        <h2>📸 Galerie <em>photos</em></h2>
+        <span class="count" id="photoCount"></span>
+      </div>
+      <div class="dropzone" id="photoDrop" onclick="document.getElementById('photoInput').click()">
+        <div class="dz-icon">📸</div>
+        <p><strong>Ajouter des photos</strong> — cliquez ici ou glissez-déposez vos fichiers</p>
+        <p class="dz-hint">JPG, PNG ou WebP · idéalement moins de 2 Mo par photo</p>
+        <input type="file" id="photoInput" accept="image/jpeg,image/png,image/webp,image/gif" multiple hidden />
+      </div>
+      <div class="media-list" id="photoList"></div>
+    </div>
+
+    <!-- VIDEOS -->
+    <div class="section-card">
+      <div class="section-head">
+        <h2>🎬 Nos <em>vidéos</em></h2>
+        <span class="count" id="videoCount"></span>
+      </div>
+      <div class="dropzone" id="videoDrop" onclick="document.getElementById('videoInput').click()">
+        <div class="dz-icon">🎬</div>
+        <p><strong>Ajouter des vidéos</strong> — cliquez ici ou glissez-déposez vos fichiers</p>
+        <p class="dz-hint">MP4 uniquement · maximum 90 Mo par vidéo (limite GitHub)</p>
+        <input type="file" id="videoInput" accept="video/mp4" multiple hidden />
+      </div>
+      <div class="media-list" id="videoList"></div>
+    </div>
+
+  </div>
+</main>
+
+<!-- Barre d'enregistrement -->
+<div class="savebar" id="savebar">
+  <p>✏️ Des modifications de textes (légendes / titres) ne sont pas encore publiées.</p>
+  <button class="btn btn-gold" onclick="saveMediaJson('Mise à jour des légendes')">💾 Publier les modifications</button>
+</div>
+
+<!-- Progression -->
+<div class="progress-overlay hidden" id="progressOverlay">
+  <div class="progress-card">
+    <span class="spin">♪</span>
+    <p id="progressText">Envoi en cours…</p>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<footer class="admin-footer">Espace administrateur · Association Crème Anglaise · Ne partagez jamais votre jeton d'accès.</footer>
+
+<script>
+/* ======================= CONFIGURATION ======================= */
+const OWNER  = 'siteofficiel';
+const REPO   = 'creme-anglaise-';
+const BRANCH = 'main';
+const API    = 'https://api.github.com';
+/* ============================================================= */
+
+let TOKEN = '';
+let media = { photos: [], videos: [] };
+let mediaSha = null;      // sha of media.json for updates
+let dirty = false;
+
+/* ---------- Porte d'entrée : mot de passe ---------- */
+/* Le mot de passe n'est jamais stocké en clair : seule son empreinte SHA-256 figure ici. */
+const PWD_HASH = '355fb346db830a774bf80fc1471e92ee214e8dfeb6c7b1ea4b1bc410ab7f7701';
+
+async function sha256Hex(str) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+async function checkPassword() {
+  const val = document.getElementById('pwdInput').value;
+  const hash = await sha256Hex(val);
+  if (hash === PWD_HASH) {
+    try { sessionStorage.setItem('ca_admin_pwd_ok', '1'); } catch (e) {}
+    unlockAdmin();
+  } else {
+    document.getElementById('pwdError').classList.remove('hidden');
+    document.getElementById('pwdInput').value = '';
+    document.getElementById('pwdInput').focus();
+  }
+}
+
+function unlockAdmin() {
+  document.getElementById('pwdView').classList.add('hidden');
+  document.getElementById('loginView').classList.remove('hidden');
+  // Reprise de session token éventuelle
+  const saved = localStorage.getItem('ca_admin_token') || sessionStorage.getItem('ca_admin_token');
+  if (saved) {
+    document.getElementById('tokenInput').value = saved;
+    document.getElementById('rememberToken').checked = !!localStorage.getItem('ca_admin_token');
+    login();
+  }
+}
+
+/* ---------- Utilitaires ---------- */
+function $(id) { return document.getElementById(id); }
+function toast(msg, type) {
+  const t = document.createElement('div');
+  t.className = 'toast-item ' + (type || '');
+  t.textContent = msg;
+  $('toast').appendChild(t);
+  setTimeout(() => t.remove(), 5000);
+}
+function showProgress(txt) { $('progressText').textContent = txt; $('progressOverlay').classList.remove('hidden'); }
+function hideProgress() { $('progressOverlay').classList.add('hidden'); }
+function setDirty(d) { dirty = d; $('savebar').classList.toggle('visible', d); }
+function esc(s) { return (s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+function gh(path, opts) {
+  opts = opts || {};
+  opts.headers = Object.assign({
+    'Authorization': 'Bearer ' + TOKEN,
+    'Accept': 'application/vnd.github+json',
+    'X-GitHub-Api-Version': '2022-11-28'
+  }, opts.headers || {});
+  return fetch(API + path, opts);
+}
+
+/* ---------- Connexion ---------- */
+async function login() {
+  const token = $('tokenInput').value.trim();
+  if (!token) { toast('Veuillez saisir votre jeton d\'accès.', 'err'); return; }
+  $('loginBtn').disabled = true;
+  TOKEN = token;
+  try {
+    const r = await gh('/repos/' + OWNER + '/' + REPO);
+    if (r.status === 401) throw new Error('Jeton invalide ou expiré.');
+    if (r.status === 404) throw new Error('Dépôt introuvable — vérifiez que le jeton a accès au dépôt ' + REPO + '.');
+    if (!r.ok) throw new Error('Erreur GitHub (' + r.status + ').');
+    const repo = await r.json();
+    if (!repo.permissions || !repo.permissions.push) throw new Error('Ce jeton n\'a pas la permission d\'écriture (Contents : Read and write).');
+    if ($('rememberToken').checked) localStorage.setItem('ca_admin_token', TOKEN);
+    else sessionStorage.setItem('ca_admin_token', TOKEN);
+    await loadMedia();
+    $('loginView').classList.add('hidden');
+    $('dashView').classList.remove('hidden');
+    $('logoutBtn').classList.remove('hidden');
+    toast('Connexion réussie. Bienvenue ! 🎵', 'ok');
+  } catch (e) {
+    TOKEN = '';
+    toast(e.message, 'err');
+  } finally {
+    $('loginBtn').disabled = false;
+  }
+}
+
+function logout() {
+  localStorage.removeItem('ca_admin_token');
+  sessionStorage.removeItem('ca_admin_token');
+  sessionStorage.removeItem('ca_admin_pwd_ok');
+  location.reload();
+}
+
+/* ---------- Chargement de media.json ---------- */
+async function loadMedia() {
+  const r = await gh('/repos/' + OWNER + '/' + REPO + '/contents/media.json?ref=' + BRANCH);
+  if (r.status === 404) { media = { photos: [], videos: [] }; mediaSha = null; }
+  else if (!r.ok) throw new Error('Impossible de lire media.json (' + r.status + ').');
+  else {
+    const data = await r.json();
+    mediaSha = data.sha;
+    const jsonStr = decodeURIComponent(escape(atob(data.content.replace(/\n/g, ''))));
+    media = JSON.parse(jsonStr);
+    media.photos = media.photos || [];
+    media.videos = media.videos || [];
+  }
+  await syncRepoFiles();
+  render();
+}
+
+/* ---------- Synchronisation avec les dossiers images/ et videos/ du dépôt ----------
+   Détecte les fichiers déjà présents sur GitHub qui ne figurent pas encore dans
+   media.json (ex. ajoutés à la main) et les ajoute automatiquement à la liste. */
+async function syncRepoFiles() {
+  const IMG_EXT = /\.(jpe?g|png|webp|gif)$/i;
+  const VID_EXT = /\.(mp4)$/i;
+  /* Fichiers techniques (logo, favicon…) à ne jamais afficher dans la galerie */
+  const EXCLUDE = /^(logo|icon|favicon|apple-touch)/i;
+  let added = 0;
+  for (const [dir, kind, ext] of [['images', 'photos', IMG_EXT], ['videos', 'videos', VID_EXT]]) {
+    try {
+      const r = await gh('/repos/' + OWNER + '/' + REPO + '/contents/' + dir + '?ref=' + BRANCH);
+      if (!r.ok) continue;
+      const files = await r.json();
+      if (!Array.isArray(files)) continue;
+      const known = new Set(media[kind].map(m => m.file));
+      for (const f of files) {
+        if (f.type !== 'file' || !ext.test(f.name) || known.has(f.path) || EXCLUDE.test(f.name)) continue;
+        const base = f.name.replace(/\.[^.]+$/, '').replace(/[-_]+/g, ' ').trim();
+        if (kind === 'photos') {
+          media.photos.push({ file: f.path, caption_fr: base || 'Photo', caption_en: base || 'Photo', wide: false });
+        } else {
+          media.videos.push({ file: f.path, title_fr: base || 'Vidéo', title_en: base || 'Video', desc_fr: 'Chorale Crème Anglaise en performance', desc_en: 'Crème Anglaise choir in performance' });
+        }
+        added++;
+      }
+      // Retirer de la liste les fichiers qui n'existent plus dans le dépôt
+      const existing = new Set(files.filter(f => f.type === 'file').map(f => f.path));
+      media[kind] = media[kind].filter(m => existing.has(m.file));
+    } catch (e) { /* dossier absent : on ignore */ }
+  }
+  if (added) {
+    toast(added + ' fichier(s) trouvé(s) dans le dépôt et ajouté(s) à la liste. Personnalisez leurs légendes puis publiez.', 'ok');
+    setDirty(true);
+  }
+}
+
+/* ---------- Rendu ---------- */
+function render() {
+  renderPhotos();
+  renderVideos();
+}
+
+const RAW = 'https://raw.githubusercontent.com/' + OWNER + '/' + REPO + '/' + BRANCH + '/';
+
+function renderPhotos() {
+  const list = $('photoList');
+  $('photoCount').textContent = media.photos.length + ' photo(s) en ligne';
+  if (!media.photos.length) { list.innerHTML = '<p class="empty-msg">Aucune photo pour le moment. Ajoutez-en une ci-dessus !</p>'; return; }
+  list.innerHTML = media.photos.map((p, i) => `
+    <div class="media-row">
+      <div class="media-thumb"><img src="${RAW + p.file}" alt="" loading="lazy" onerror="this.replaceWith('♪')" /></div>
+      <div class="media-fields">
+        <div class="media-file">📄 ${esc(p.file)}</div>
+        <label>Légende (français)</label>
+        <input type="text" value="${esc(p.caption_fr)}" oninput="media.photos[${i}].caption_fr=this.value;setDirty(true)" />
+        <label>Caption (anglais)</label>
+        <input type="text" value="${esc(p.caption_en)}" oninput="media.photos[${i}].caption_en=this.value;setDirty(true)" />
+        <div class="wide-row">
+          <input type="checkbox" id="wide${i}" ${p.wide ? 'checked' : ''} onchange="media.photos[${i}].wide=this.checked;setDirty(true)" />
+          <label for="wide${i}" style="margin:0;text-transform:none;letter-spacing:0;">Grande photo (occupe 2 colonnes)</label>
+        </div>
+      </div>
+      <div class="media-actions">
+        <button class="btn btn-small" onclick="movePhoto(${i},-1)" ${i === 0 ? 'disabled' : ''}>⬆ Monter</button>
+        <button class="btn btn-small" onclick="movePhoto(${i},1)" ${i === media.photos.length - 1 ? 'disabled' : ''}>⬇ Descendre</button>
+        <button class="btn btn-small" onclick="renameMedia('photos',${i})">✏️ Renommer</button>
+        <button class="btn btn-danger" onclick="deleteMedia('photos',${i})">🗑 Supprimer</button>
+      </div>
+    </div>`).join('');
+}
+
+function renderVideos() {
+  const list = $('videoList');
+  $('videoCount').textContent = media.videos.length + ' vidéo(s) en ligne';
+  if (!media.videos.length) { list.innerHTML = '<p class="empty-msg">Aucune vidéo pour le moment. Ajoutez-en une ci-dessus !</p>'; return; }
+  list.innerHTML = media.videos.map((v, i) => `
+    <div class="media-row">
+      <div class="media-thumb"><video src="${RAW + v.file}" preload="metadata" muted></video></div>
+      <div class="media-fields">
+        <div class="media-file">📄 ${esc(v.file)}</div>
+        <label>Titre (français)</label>
+        <input type="text" value="${esc(v.title_fr)}" oninput="media.videos[${i}].title_fr=this.value;setDirty(true)" />
+        <label>Title (anglais)</label>
+        <input type="text" value="${esc(v.title_en)}" oninput="media.videos[${i}].title_en=this.value;setDirty(true)" />
+        <label>Description (français)</label>
+        <input type="text" value="${esc(v.desc_fr)}" oninput="media.videos[${i}].desc_fr=this.value;setDirty(true)" />
+        <label>Description (anglais)</label>
+        <input type="text" value="${esc(v.desc_en)}" oninput="media.videos[${i}].desc_en=this.value;setDirty(true)" />
+      </div>
+      <div class="media-actions">
+        <button class="btn btn-small" onclick="moveVideo(${i},-1)" ${i === 0 ? 'disabled' : ''}>⬆ Monter</button>
+        <button class="btn btn-small" onclick="moveVideo(${i},1)" ${i === media.videos.length - 1 ? 'disabled' : ''}>⬇ Descendre</button>
+        <button class="btn btn-small" onclick="renameMedia('videos',${i})">✏️ Renommer</button>
+        <button class="btn btn-danger" onclick="deleteMedia('videos',${i})">🗑 Supprimer</button>
+      </div>
+    </div>`).join('');
+}
+
+function movePhoto(i, d) { const a = media.photos; [a[i], a[i+d]] = [a[i+d], a[i]]; renderPhotos(); saveMediaJson('Réorganisation des photos'); }
+function moveVideo(i, d) { const a = media.videos; [a[i], a[i+d]] = [a[i+d], a[i]]; renderVideos(); saveMediaJson('Réorganisation des vidéos'); }
+
+/* ---------- Upload ---------- */
+function sanitizeName(name) {
+  return name.normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-zA-Z0-9._-]/g, '-').replace(/-+/g, '-').toLowerCase();
+}
+
+function fileToBase64(file) {
+  return new Promise((resolve, reject) => {
+    const fr = new FileReader();
+    fr.onload = () => resolve(fr.result.split(',')[1]);
+    fr.onerror = reject;
+    fr.readAsDataURL(file);
+  });
+}
+
+async function uploadFiles(files, kind) {
+  const isPhoto = kind === 'photos';
+  const dir = isPhoto ? 'images' : 'videos';
+  const maxMB = isPhoto ? 15 : 90;
+  for (const file of files) {
+    if (file.size > maxMB * 1024 * 1024) {
+      toast('« ' + file.name + ' » dépasse ' + maxMB + ' Mo — fichier ignoré. Compressez-le d\'abord.', 'err');
+      continue;
+    }
+    const stamp = new Date().toISOString().slice(0, 10);
+    const path = dir + '/' + stamp + '-' + Date.now().toString(36) + '-' + sanitizeName(file.name);
+    try {
+      showProgress('Envoi de « ' + file.name + ' »… (' + (file.size / 1048576).toFixed(1) + ' Mo)');
+      const b64 = await fileToBase64(file);
+      const r = await gh('/repos/' + OWNER + '/' + REPO + '/contents/' + path, {
+        method: 'PUT',
+        body: JSON.stringify({ message: 'Ajout ' + (isPhoto ? 'photo' : 'vidéo') + ' : ' + file.name, content: b64, branch: BRANCH })
+      });
+      if (!r.ok) { const e = await r.json().catch(() => ({})); throw new Error(e.message || 'Erreur ' + r.status); }
+      if (isPhoto) {
+        media.photos.push({ file: path, caption_fr: 'Nouvelle photo', caption_en: 'New photo', wide: false });
+      } else {
+        const n = media.videos.length + 1;
+        media.videos.push({ file: path, title_fr: 'Concert · Extrait ' + n, title_en: 'Concert · Clip ' + n, desc_fr: 'Chorale Crème Anglaise en performance', desc_en: 'Crème Anglaise choir in performance' });
+      }
+      await saveMediaJsonSilent('Ajout de ' + file.name);
+      render();
+      toast('« ' + file.name + ' » ajouté avec succès ! 🎉 Pensez à personnaliser sa légende.', 'ok');
+    } catch (e) {
+      toast('Échec de l\'envoi de « ' + file.name + ' » : ' + e.message, 'err');
+    } finally {
+      hideProgress();
+    }
+  }
+}
+
+/* ---------- Renommage d'un fichier ---------- */
+async function renameMedia(kind, i) {
+  const item = media[kind][i];
+  const dir = item.file.substring(0, item.file.lastIndexOf('/') + 1);
+  const oldName = item.file.substring(item.file.lastIndexOf('/') + 1);
+  const ext = oldName.includes('.') ? oldName.substring(oldName.lastIndexOf('.')) : '';
+  let input = prompt('Nouveau nom du fichier (sans changer le type ' + ext + ') :', oldName);
+  if (input === null) return;
+  input = sanitizeName(input.trim());
+  if (!input) { toast('Nom invalide.', 'err'); return; }
+  if (!input.toLowerCase().endsWith(ext.toLowerCase())) input += ext;
+  if (input === oldName) return;
+  const newPath = dir + input;
+  if (media[kind].some((m, j) => j !== i && m.file === newPath)) { toast('Un fichier porte déjà ce nom.', 'err'); return; }
+  try {
+    showProgress('Renommage de « ' + oldName + ' » en « ' + input + ' »…');
+    // 1. lire le fichier existant (base64)
+    const rGet = await gh('/repos/' + OWNER + '/' + REPO + '/contents/' + item.file + '?ref=' + BRANCH);
+    if (!rGet.ok) throw new Error('Fichier introuvable dans le dépôt (' + rGet.status + ').');
+    const info = await rGet.json();
+    let content = info.content;
+    if (!content && info.download_url) {
+      // gros fichiers (> 1 Mo) : l'API ne renvoie pas le contenu inline → via le blob
+      const rBlob = await gh('/repos/' + OWNER + '/' + REPO + '/git/blobs/' + info.sha);
+      if (!rBlob.ok) throw new Error('Impossible de lire le contenu du fichier (' + rBlob.status + ').');
+      content = (await rBlob.json()).content;
+    }
+    content = (content || '').replace(/\n/g, '');
+    if (!content) throw new Error('Contenu du fichier vide ou illisible.');
+    // 2. créer la copie sous le nouveau nom
+    const rPut = await gh('/repos/' + OWNER + '/' + REPO + '/contents/' + newPath, {
+      method: 'PUT',
+      body: JSON.stringify({ message: 'Renommage : ' + oldName + ' → ' + input, content: content, branch: BRANCH })
+    });
+    if (!rPut.ok) { const e = await rPut.json().catch(() => ({})); throw new Error(e.message || 'Erreur ' + rPut.status); }
+    // 3. supprimer l'ancien fichier
+    const rDel = await gh('/repos/' + OWNER + '/' + REPO + '/contents/' + item.file, {
+      method: 'DELETE',
+      body: JSON.stringify({ message: 'Renommage : suppression de ' + oldName, sha: info.sha, branch: BRANCH })
+    });
+    if (!rDel.ok) { const e = await rDel.json().catch(() => ({})); throw new Error('Copie créée mais suppression de l\'ancien fichier impossible : ' + (e.message || rDel.status)); }
+    // 4. mettre à jour media.json
+    item.file = newPath;
+    await saveMediaJsonSilent('Renommage : ' + oldName + ' → ' + input);
+    render();
+    toast('Fichier renommé en « ' + input + ' ». ✅', 'ok');
+  } catch (e) {
+    toast('Échec du renommage : ' + e.message, 'err');
+  } finally {
+    hideProgress();
+  }
+}
+
+/* ---------- Suppression ---------- */
+async function deleteMedia(kind, i) {
+  const item = media[kind][i];
+  const label = kind === 'photos' ? (item.caption_fr || item.file) : (item.title_fr || item.file);
+  if (!confirm('Supprimer définitivement « ' + label + ' » du site et du dépôt GitHub ?')) return;
+  try {
+    showProgress('Suppression en cours…');
+    const rGet = await gh('/repos/' + OWNER + '/' + REPO + '/contents/' + item.file + '?ref=' + BRANCH);
+    if (rGet.ok) {
+      const info = await rGet.json();
+      const rDel = await gh('/repos/' + OWNER + '/' + REPO + '/contents/' + item.file, {
+        method: 'DELETE',
+        body: JSON.stringify({ message: 'Suppression : ' + item.file, sha: info.sha, branch: BRANCH })
+      });
+      if (!rDel.ok) { const e = await rDel.json().catch(() => ({})); throw new Error(e.message || 'Erreur ' + rDel.status); }
+    }
+    media[kind].splice(i, 1);
+    await saveMediaJsonSilent('Suppression de ' + item.file);
+    render();
+    toast('Élément supprimé.', 'ok');
+  } catch (e) {
+    toast('Échec de la suppression : ' + e.message, 'err');
+  } finally {
+    hideProgress();
+  }
+}
+
+/* ---------- Sauvegarde de media.json ---------- */
+async function saveMediaJsonSilent(message) {
+  const jsonStr = JSON.stringify(media, null, 2);
+  const b64 = btoa(unescape(encodeURIComponent(jsonStr)));
+  const body = { message: message || 'Mise à jour des médias', content: b64, branch: BRANCH };
+  if (mediaSha) body.sha = mediaSha;
+  const r = await gh('/repos/' + OWNER + '/' + REPO + '/contents/media.json', { method: 'PUT', body: JSON.stringify(body) });
+  if (r.status === 409) { // conflit de sha → recharger le sha et réessayer une fois
+    const rr = await gh('/repos/' + OWNER + '/' + REPO + '/contents/media.json?ref=' + BRANCH);
+    if (rr.ok) { mediaSha = (await rr.json()).sha; body.sha = mediaSha;
+      const r2 = await gh('/repos/' + OWNER + '/' + REPO + '/contents/media.json', { method: 'PUT', body: JSON.stringify(body) });
+      if (!r2.ok) throw new Error('Erreur lors de l\'enregistrement (' + r2.status + ')');
+      mediaSha = (await r2.json()).content.sha;
+      return;
+    }
+  }
+  if (!r.ok) { const e = await r.json().catch(() => ({})); throw new Error(e.message || 'Erreur ' + r.status); }
+  mediaSha = (await r.json()).content.sha;
+}
+
+async function saveMediaJson(message) {
+  try {
+    showProgress('Publication des modifications…');
+    await saveMediaJsonSilent(message);
+    setDirty(false);
+    toast('Modifications publiées ! Le site sera à jour dans 1 à 2 minutes. ✅', 'ok');
+  } catch (e) {
+    toast('Échec de la publication : ' + e.message, 'err');
+  } finally {
+    hideProgress();
+  }
+}
+
+/* ---------- Écouteurs ---------- */
+$('photoInput').addEventListener('change', e => { uploadFiles([...e.target.files], 'photos'); e.target.value = ''; });
+$('videoInput').addEventListener('change', e => { uploadFiles([...e.target.files], 'videos'); e.target.value = ''; });
+
+[['photoDrop', 'photos'], ['videoDrop', 'videos']].forEach(([id, kind]) => {
+  const dz = $(id);
+  dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('dragover'); });
+  dz.addEventListener('dragleave', () => dz.classList.remove('dragover'));
+  dz.addEventListener('drop', e => {
+    e.preventDefault(); dz.classList.remove('dragover');
+    uploadFiles([...e.dataTransfer.files], kind);
+  });
+});
+
+$('tokenInput').addEventListener('keydown', e => { if (e.key === 'Enter') login(); });
+$('pwdInput').addEventListener('keydown', e => { if (e.key === 'Enter') checkPassword(); });
+
+window.addEventListener('beforeunload', e => { if (dirty) { e.preventDefault(); e.returnValue = ''; } });
+
+/* ---------- Initialisation ---------- */
+(function init() {
+  let ok = false;
+  try { ok = sessionStorage.getItem('ca_admin_pwd_ok') === '1'; } catch (e) {}
+  if (ok) unlockAdmin();
+  else $('pwdInput').focus();
+})();
+</script>
+</body>
+</html>

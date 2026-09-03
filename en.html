@@ -4,6 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Crème Anglaise – Choir of Évran & Dinan</title>
+  <link rel="icon" href="favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32.png" />
+  <link rel="icon" type="image/png" sizes="48x48" href="images/favicon-48.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="images/icon-192.png" />
+  <link rel="apple-touch-icon" href="images/apple-touch-icon.png" />
+  <meta name="theme-color" content="#1A1208" />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -178,8 +184,7 @@
 
     /* VIDEOS */
     .videos-grid { margin-top:52px; display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
-    .videos-grid .video-card:nth-child(4) { grid-column:1; }
-    .videos-grid .video-card:nth-child(5) { grid-column:2; }
+    .videos-grid .video-card { min-width:0; }
     .video-card { border-radius:var(--radius); overflow:hidden; background:var(--white); border:1px solid rgba(200,150,12,.15); box-shadow:0 2px 12px rgba(0,0,0,.05); transition:box-shadow .2s,transform .2s; }
     .video-card:hover { box-shadow:0 8px 28px rgba(200,150,12,.15); transform:translateY(-3px); }
     .video-native { width:100%; aspect-ratio:16/9; display:block; background:var(--deep); }
@@ -265,7 +270,6 @@
     }
     @media (max-width: 980px) {
       .videos-grid { grid-template-columns:1fr 1fr; }
-      .videos-grid .video-card:nth-child(4),.videos-grid .video-card:nth-child(5) { grid-column:auto; }
     }
 
     @media (max-width: 768px) {
@@ -375,7 +379,7 @@
         </div>
         <div class="about-card">
           <div class="about-card-icon">🎉</div>
-          <div class="about-card-info"><h3>Concerts & events</h3><p>Several performances a year at local festivals and associations</p></div>
+          <div class="about-card-info"><h3>Concerts & events</h3><p>Several performances a year at local festivals and associations — taking part in concerts is optional</p></div>
         </div>
       </div>
     </div>
@@ -390,10 +394,10 @@
     <p class="section-lead">49 titles carefully arranged for our voices — from French chanson to great English classics, gospel, and international song.</p>
     <div class="rep-tabs" role="tablist">
       <button class="rep-tab active" onclick="showTab('all')" role="tab">🎵 All (49)</button>
-      <button class="rep-tab" onclick="showTab('fr')" role="tab">🇫🇷 French (17)</button>
-      <button class="rep-tab" onclick="showTab('en')" role="tab">🇬🇧 English (22)</button>
-      <button class="rep-tab" onclick="showTab('bilingual')" role="tab">🌍 Bilingual (7)</button>
-      <button class="rep-tab" onclick="showTab('other')" role="tab">🌐 Other (3)</button>
+      <button class="rep-tab" onclick="showTab('fr')" role="tab">🇫🇷 French (19)</button>
+      <button class="rep-tab" onclick="showTab('en')" role="tab">🇬🇧 English (21)</button>
+      <button class="rep-tab" onclick="showTab('bilingual')" role="tab">🌍 Bilingual (5)</button>
+      <button class="rep-tab" onclick="showTab('other')" role="tab">🌐 Other (4)</button>
     </div>
     <div class="rep-song-grid" id="songGrid"></div>
     <p class="rep-total-note">🎼 <strong>49 titles</strong> in repertoire · Total duration: <strong>2h30</strong></p>
@@ -406,22 +410,22 @@
     <p class="section-label">Moments of life</p>
     <h2 class="section-title">The choir <em>in pictures</em></h2>
     <p class="section-lead">Concerts, rehearsals, outings… find here the behind-the-scenes and highlights of Crème Anglaise.</p>
-    <div class="gallery-grid">
+    <div class="gallery-grid" id="galleryGrid">
       <div class="gallery-item gallery-item--photo gallery-item--wide">
         <img src="images/photo-3.jpg" alt="Outdoor concert — Crème Anglaise choir" loading="lazy" onerror="this.style.display='none';this.parentElement.classList.add('img-fallback');" />
         <div class="gallery-caption">Outdoor concert · Breton village</div>
       </div>
       <div class="gallery-item gallery-item--photo">
-        <img src="images/photo-2.jpg" alt="Church concert — Crème Anglaise choir" loading="lazy" onerror="this.style.display='none';this.parentElement.classList.add('img-fallback');" />
-        <div class="gallery-caption">Church concert · Brittany</div>
-      </div>
-      <div class="gallery-item gallery-item--photo">
-        <img src="images/photo-1.jpg" alt="Crème Anglaise stand — registration" loading="lazy" onerror="this.style.display='none';this.parentElement.classList.add('img-fallback');" />
+        <img src="images/photo-2.jpg" alt="Crème Anglaise stand — associations fair" loading="lazy" onerror="this.style.display='none';this.parentElement.classList.add('img-fallback');" />
         <div class="gallery-caption">Presentation stand · Associations fair</div>
       </div>
-      <div class="gallery-item gallery-item--photo gallery-item--wide">
-        <img src="images/photo-4.jpg" alt="80th anniversary of Liberation — La Rance Libérée, Évran 2024" loading="lazy" onerror="this.style.display='none';this.parentElement.classList.add('img-fallback');" />
+      <div class="gallery-item gallery-item--photo">
+        <img src="images/photo-1.jpg" alt="80th anniversary of Liberation — La Rance Libérée, Évran 2024" loading="lazy" onerror="this.style.display='none';this.parentElement.classList.add('img-fallback');" />
         <div class="gallery-caption">80th anniversary of Liberation · La Rance Libérée — Évran, August 2024</div>
+      </div>
+      <div class="gallery-item gallery-item--photo gallery-item--wide">
+        <img src="images/photo-4.jpg" alt="Church concert — Crème Anglaise choir" loading="lazy" onerror="this.style.display='none';this.parentElement.classList.add('img-fallback');" />
+        <div class="gallery-caption">Church concert · Brittany</div>
       </div>
       <div class="gallery-item gallery-item--placeholder">
         <div class="gallery-item-icon">📸</div>
@@ -438,7 +442,7 @@
     <p class="section-label">Listen to us</p>
     <h2 class="section-title">Our <em>videos</em></h2>
     <p class="section-lead">A few clips from our concerts and rehearsals to give you a taste of the Crème Anglaise experience.</p>
-    <div class="videos-grid">
+    <div class="videos-grid" id="videosGrid">
       <div class="video-card"><video class="video-native" preload="metadata" controls playsinline><source src="videos/concert-1.mp4" type="video/mp4"/></video><div class="video-info"><h3>Concert · Clip 1</h3><p>Crème Anglaise choir in performance</p></div></div>
       <div class="video-card"><video class="video-native" preload="metadata" controls playsinline><source src="videos/concert-2.mp4" type="video/mp4"/></video><div class="video-info"><h3>Concert · Clip 2</h3><p>Crème Anglaise choir in performance</p></div></div>
       <div class="video-card"><video class="video-native" preload="metadata" controls playsinline><source src="videos/concert-3.mp4" type="video/mp4"/></video><div class="video-info"><h3>Concert · Clip 3</h3><p>Crème Anglaise choir in performance</p></div></div>
@@ -529,12 +533,12 @@
         <div class="rejoindre-card">
           <div class="icon">🎵</div>
           <h3>All voice parts</h3>
-          <p>Sopranos, altos, <strong style="color:var(--cream);">tenors</strong>, basses — all registers are welcome. All ages and nationalities are valued in our ensemble.</p>
+          <p>Sopranos, altos, tenors, basses — all registers are welcome. All ages and nationalities are valued in our ensemble.</p>
         </div>
         <div class="rejoindre-card">
           <div class="icon">💰</div>
           <h3>Annual membership</h3>
-          <p>Affordable association membership, accessible to all. Contact us for the current season fee.</p>
+          <p>Annual membership fee of €25 — reasonable and accessible to all.</p>
         </div>
         <div class="rejoindre-card">
           <div class="icon">🤝</div>
@@ -571,7 +575,7 @@
           </div>
           <div class="contact-detail">
             <div class="contact-detail-icon">📱</div>
-            <div class="contact-detail-text"><strong>Phone</strong><span>To be confirmed — please contact us by email</span></div>
+            <div class="contact-detail-text"><strong>Phone</strong><span><a href="tel:+33769022418" style="color:inherit;text-decoration:none;">+33 7 69 02 24 18</a></span></div>
           </div>
           <div class="contact-detail">
             <div class="contact-detail-icon">🎵</div>
@@ -623,6 +627,8 @@
   </div>
   <div class="footer-divider"></div>
   <p class="footer-copy">© 2025 Association Crème Anglaise · Made with ♪ in Brittany</p>
+  <a href="admin.html" style="display:inline-flex;align-items:center;gap:8px;margin-top:14px;padding:9px 22px;border:1px solid rgba(200,150,12,.45);border-radius:30px;color:#C8960C;font-size:.8rem;letter-spacing:.05em;text-decoration:none;">🔐 Admin area</a>
+  <p class="footer-copy" style="margin-top:6px;">Performed works declared to SACEM · Website by <a href="https://webetgo.fr" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;">Web et Go</a></p>
 </footer>
 
 <script>
@@ -699,11 +705,11 @@
     { title:"Revival Song", lang:"en", flag:"🇬🇧" },
     { title:"You'll never walk Alone", lang:"en", flag:"🇬🇧" },
     { title:"The Rhythm of Life", lang:"en", flag:"🇬🇧" },
-    { title:"Ave Maria", lang:"en", flag:"🇬🇧" },
+    { title:"Ave Maria", lang:"other", flag:"🌐" },
     { title:"Armstrong (EN)", lang:"en", flag:"🇬🇧" },
     { title:"Lean on Me", lang:"en", flag:"🇬🇧" },
     { title:"Another Day of Sun", lang:"en", flag:"🇬🇧" },
-    { title:"Do you hear the people sing", lang:"en", flag:"🇬🇧" },
+    { title:"Do you hear the people sing", lang:"bilingual", flag:"🌍" },
     { title:"Hallelujah", lang:"en", flag:"🇬🇧" },
     { title:"Stand by Me", lang:"en", flag:"🇬🇧" },
     { title:"This Is Me", lang:"en", flag:"🇬🇧" },
@@ -714,12 +720,12 @@
     { title:"Oh Happy Day", lang:"en", flag:"🇬🇧" },
     { title:"In Memoriam", lang:"en", flag:"🇬🇧" },
     { title:"Your Song", lang:"en", flag:"🇬🇧" },
-    { title:"Vois sur ton chemin", lang:"bilingual", flag:"🌍" },
+    { title:"Vois sur ton chemin", lang:"fr", flag:"🇫🇷" },
     { title:"Aux Champs-Élysées / Waterloo Road", lang:"bilingual", flag:"🌍" },
     { title:"La Mer / Beyond the sea", lang:"bilingual", flag:"🌍" },
     { title:"Les Feuilles mortes / Autumn Leaves", lang:"bilingual", flag:"🌍" },
-    { title:"Vivre pour les meilleurs", lang:"bilingual", flag:"🌍" },
-    { title:"The Joker & The Queen", lang:"bilingual", flag:"🌍" },
+    { title:"Vivre pour les meilleurs", lang:"fr", flag:"🇫🇷" },
+    { title:"The Joker & The Queen", lang:"en", flag:"🇬🇧" },
     { title:"Le lion est mort ce soir", lang:"bilingual", flag:"🌍" },
     { title:"El condor pasa / Sur le chemin des andes", lang:"other", flag:"🌐" },
     { title:"Malaika", lang:"other", flag:"🌐" },
@@ -797,6 +803,92 @@
       btn.style.background = '';
     }, 3000);
   }
+</script>
+
+<script>
+/* ===== Chargement dynamique des médias (media.json, géré via admin.html) ===== */
+(function () {
+  var LANG = 'en';
+  fetch('media.json?v=' + Date.now())
+    .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+    .then(function (media) {
+      var esc = function (s) { return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); };
+
+      /* --- Galerie photos --- */
+      var grid = document.getElementById('galleryGrid');
+      if (grid && media.photos && media.photos.length) {
+        var html = media.photos.map(function (p) {
+          var cap = LANG === 'fr' ? p.caption_fr : p.caption_en;
+          return '<div class="gallery-item gallery-item--photo' + (p.wide ? ' gallery-item--wide' : '') + '">' +
+            '<img src="' + esc(p.file) + '" alt="' + esc(cap) + '" loading="lazy" onerror="this.style.display=\'none\';this.parentElement.classList.add(\'img-fallback\');" />' +
+            '<div class="gallery-caption">' + esc(cap) + '</div></div>';
+        }).join('');
+        html += '<div class="gallery-item gallery-item--placeholder">' +
+          '<div class="gallery-item-icon">\uD83D\uDCF8</div>' +
+          (LANG === 'fr'
+            ? '<div class="gallery-item-label"><strong>Vos prochaines photos</strong>Contactez-nous pour en savoir plus</div><span class="gallery-upload-hint">\u00C0 venir</span>'
+            : '<div class="gallery-item-label"><strong>Your upcoming photos</strong>Contact us to find out more</div><span class="gallery-upload-hint">Coming soon</span>') +
+          '</div>';
+        grid.innerHTML = html;
+      }
+
+      /* --- Vidéos --- */
+      var vgrid = document.getElementById('videosGrid');
+      if (vgrid && media.videos && media.videos.length) {
+        vgrid.innerHTML = media.videos.map(function (v) {
+          var title = LANG === 'fr' ? v.title_fr : v.title_en;
+          var desc  = LANG === 'fr' ? v.desc_fr  : v.desc_en;
+          return '<div class="video-card"><video class="video-native" preload="metadata" controls playsinline>' +
+            '<source src="' + esc(v.file) + '" type="video/mp4"/></video>' +
+            '<div class="video-info"><h3>' + esc(title) + '</h3><p>' + esc(desc) + '</p></div></div>';
+        }).join('');
+      }
+
+      /* --- Réactiver l'animation d'apparition sur les nouveaux éléments --- */
+      var obs = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
+          }
+        });
+      }, { threshold: 0.1 });
+      document.querySelectorAll('#galleryGrid .gallery-item, #videosGrid .video-card').forEach(function (el) {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(24px)';
+        el.style.transition = 'opacity .5s ease, transform .5s ease';
+        obs.observe(el);
+      });
+    })
+    .catch(function () { /* media.json indisponible : le contenu statique reste affiché */ });
+})();
+</script>
+
+<!-- ===== Bandeau cookies / RGPD ===== -->
+<div id="cookieBar" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9999;background:#1A1208;color:#FDF6EC;padding:16px clamp(16px,4vw,40px);box-shadow:0 -6px 24px rgba(0,0,0,.35);border-top:2px solid #C8960C;">
+  <div style="max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;">
+    <p style="margin:0;font-size:.85rem;line-height:1.55;flex:1 1 320px;">
+      🍪 <strong style="color:#C8960C;">Your privacy matters</strong> — This website sets <strong>no advertising or tracking cookies</strong>.
+      Only essential local storage is used (to remember this choice). Fonts are loaded from Google Fonts.
+      <span id="cookieMore" style="display:none;">No personal data is collected by the Association Crème Anglaise while you browse. Questions: c.a.chorale22@gmail.com.</span>
+      <a href="#" onclick="document.getElementById('cookieMore').style.display='inline';this.style.display='none';return false;" style="color:#C8960C;">Learn more</a>
+    </p>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;">
+      <button onclick="caCookieConsent('accepted')" style="background:#C8960C;color:#1A1208;border:none;padding:10px 22px;border-radius:30px;font-family:'DM Sans',sans-serif;font-size:.85rem;font-weight:500;cursor:pointer;">Accept</button>
+      <button onclick="caCookieConsent('refused')" style="background:transparent;color:#FDF6EC;border:1px solid rgba(253,246,236,.35);padding:10px 22px;border-radius:30px;font-family:'DM Sans',sans-serif;font-size:.85rem;cursor:pointer;">Continue without accepting</button>
+    </div>
+  </div>
+</div>
+<script>
+  function caCookieConsent(v) {
+    try { localStorage.setItem('ca_cookie_consent', v); } catch (e) {}
+    document.getElementById('cookieBar').style.display = 'none';
+  }
+  (function () {
+    var c = null;
+    try { c = localStorage.getItem('ca_cookie_consent'); } catch (e) {}
+    if (!c) document.getElementById('cookieBar').style.display = 'block';
+  })();
 </script>
 </body>
 </html>
