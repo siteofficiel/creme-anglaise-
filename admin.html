@@ -200,6 +200,20 @@
       <div class="media-list" id="videoList"></div>
     </div>
 
+    <!-- ÉVÉNEMENTS -->
+    <div class="section-card">
+      <div class="section-head">
+        <h2>📅 Concerts &amp; <em>événements</em></h2>
+        <span class="count" id="eventCount"></span>
+      </div>
+      <p style="font-size:.86rem;color:var(--muted);line-height:1.6;margin-bottom:18px;">
+        Les événements « à venir » s'affichent dans <strong>Venez nous voir</strong>, les autres dans <strong>Événements passés</strong>.
+        Pensez à basculer un concert sur « passé » une fois la date écoulée.
+      </p>
+      <button class="btn btn-gold" onclick="addEvent()" style="margin-bottom:20px;">➕ Ajouter un événement</button>
+      <div class="media-list" id="eventList"></div>
+    </div>
+
   </div>
 </main>
 
@@ -230,7 +244,7 @@ const API    = 'https://api.github.com';
 /* ============================================================= */
 
 let TOKEN = '';
-let media = { photos: [], videos: [] };
+let media = { photos: [], videos: [], events: [] };
 let mediaSha = null;      // sha of media.json for updates
 let dirty = false;
 
@@ -350,7 +364,7 @@ function logout() {
 /* ---------- Chargement de media.json ---------- */
 async function loadMedia() {
   const r = await gh('/repos/' + OWNER + '/' + REPO + '/contents/media.json?ref=' + BRANCH);
-  if (r.status === 404) { media = { photos: [], videos: [] }; mediaSha = null; }
+  if (r.status === 404) { media = { photos: [], videos: [], events: [] }; mediaSha = null; }
   else if (!r.ok) throw new Error('Impossible de lire media.json (' + r.status + ').');
   else {
     const data = await r.json();
@@ -359,6 +373,7 @@ async function loadMedia() {
     media = JSON.parse(jsonStr);
     media.photos = media.photos || [];
     media.videos = media.videos || [];
+    media.events = media.events || [];
   }
   await syncRepoFiles();
   render();
@@ -405,6 +420,7 @@ async function syncRepoFiles() {
 function render() {
   renderPhotos();
   renderVideos();
+  renderEvents();
 }
 
 const RAW = 'https://raw.githubusercontent.com/' + OWNER + '/' + REPO + '/' + BRANCH + '/';
@@ -461,6 +477,75 @@ function renderVideos() {
         <button class="btn btn-danger" onclick="deleteMedia('videos',${i})">🗑 Supprimer</button>
       </div>
     </div>`).join('');
+}
+
+/* ---------- Événements (concerts) ---------- */
+function renderEvents() {
+  const list = $('eventList');
+  if (!list) return;
+  media.events = media.events || [];
+  $('eventCount').textContent = media.events.length + ' événement(s)';
+  if (!media.events.length) {
+    list.innerHTML = '<p class="empty-msg">Aucun événement pour le moment. Cliquez sur « Ajouter un événement ».</p>';
+    return;
+  }
+  list.innerHTML = media.events.map((e, i) => `
+    <div class="media-row">
+      <div class="media-thumb" style="flex-direction:column;background:var(--soft);color:var(--gold);width:96px;height:96px;">
+        <strong style="font-family:'Playfair Display',serif;font-size:1.8rem;line-height:1;">${esc(e.day || '--')}</strong>
+        <span style="font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);">${esc(e.month_fr || '')}</span>
+      </div>
+      <div class="media-fields">
+        <label>Statut</label>
+        <select onchange="media.events[${i}].type=this.value;setDirty(true);renderEvents()">
+          <option value="upcoming" ${e.type === 'upcoming' ? 'selected' : ''}>🎵 À venir</option>
+          <option value="past" ${e.type !== 'upcoming' ? 'selected' : ''}>✅ Passé</option>
+        </select>
+        <div style="display:grid;grid-template-columns:90px 1fr 1fr;gap:10px;">
+          <div><label>Jour</label><input type="text" value="${esc(e.day)}" placeholder="19" oninput="media.events[${i}].day=this.value;setDirty(true)" /></div>
+          <div><label>Mois (FR)</label><input type="text" value="${esc(e.month_fr)}" placeholder="Juin 26" oninput="media.events[${i}].month_fr=this.value;setDirty(true)" /></div>
+          <div><label>Mois (EN)</label><input type="text" value="${esc(e.month_en)}" placeholder="Jun 26" oninput="media.events[${i}].month_en=this.value;setDirty(true)" /></div>
+        </div>
+        <label>Titre (français)</label>
+        <input type="text" value="${esc(e.title_fr)}" oninput="media.events[${i}].title_fr=this.value;setDirty(true)" />
+        <label>Title (anglais)</label>
+        <input type="text" value="${esc(e.title_en)}" oninput="media.events[${i}].title_en=this.value;setDirty(true)" />
+        <label>Lieu (français)</label>
+        <input type="text" value="${esc(e.place_fr)}" oninput="media.events[${i}].place_fr=this.value;setDirty(true)" />
+        <label>Place (anglais)</label>
+        <input type="text" value="${esc(e.place_en)}" oninput="media.events[${i}].place_en=this.value;setDirty(true)" />
+      </div>
+      <div class="media-actions">
+        <button class="btn btn-small" onclick="moveEvent(${i},-1)" ${i === 0 ? 'disabled' : ''}>⬆ Monter</button>
+        <button class="btn btn-small" onclick="moveEvent(${i},1)" ${i === media.events.length - 1 ? 'disabled' : ''}>⬇ Descendre</button>
+        <button class="btn btn-danger" onclick="deleteEvent(${i})">🗑 Supprimer</button>
+      </div>
+    </div>`).join('');
+}
+
+function addEvent() {
+  media.events = media.events || [];
+  media.events.unshift({
+    type: 'upcoming', day: '', month_fr: '', month_en: '',
+    title_fr: 'Nouveau concert', title_en: 'New concert',
+    place_fr: 'Évran', place_en: 'Évran'
+  });
+  setDirty(true);
+  renderEvents();
+}
+
+function deleteEvent(i) {
+  if (!confirm('Supprimer cet événement ?')) return;
+  media.events.splice(i, 1);
+  setDirty(true);
+  renderEvents();
+}
+
+function moveEvent(i, d) {
+  const a = media.events;
+  [a[i], a[i + d]] = [a[i + d], a[i]];
+  renderEvents();
+  saveMediaJson('Réorganisation des événements');
 }
 
 function movePhoto(i, d) { const a = media.photos; [a[i], a[i+d]] = [a[i+d], a[i]]; renderPhotos(); saveMediaJson('Réorganisation des photos'); }
@@ -657,5 +742,5 @@ window.addEventListener('beforeunload', e => { if (dirty) { e.preventDefault(); 
   else $('pwdInput').focus();
 })();
 </script>
-</body>
+<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a3f85aabad2ad363',t:'MTc5MDE1Mzk3NQ=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>

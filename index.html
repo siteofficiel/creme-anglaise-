@@ -3,7 +3,18 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Crème Anglaise – Chorale d'Évran & Dinan</title>
+  <title>Crème Anglaise — Chorale d'Évran, Côtes-d'Armor (22) | Choir in Brittany</title>
+  <meta name="description" content="Crème Anglaise, chorale associative à Évran (Côtes-d'Armor, Bretagne) : chansons populaires anglaises et françaises. Répétitions chaque samedi de 15 h à 17 h. Community choir in Brittany — beginners welcome." />
+  <meta name="keywords" content="chorale Évran, chorale Côtes-d'Armor, chorale Bretagne, Crème Anglaise, chant choral 22, chorale bilingue, choir Brittany, English choir France, community choir Évran" />
+  <link rel="canonical" href="https://siteofficiel.github.io/creme-anglaise-/" />
+  <link rel="alternate" hreflang="fr" href="https://siteofficiel.github.io/creme-anglaise-/fr.html" />
+  <link rel="alternate" hreflang="en" href="https://siteofficiel.github.io/creme-anglaise-/en.html" />
+  <link rel="alternate" hreflang="x-default" href="https://siteofficiel.github.io/creme-anglaise-/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Crème Anglaise — Chorale d'Évran, Côtes-d'Armor" />
+  <meta property="og:description" content="Chansons populaires anglaises et françaises, chantées avec cœur et bonne humeur. Répétitions chaque samedi de 15 h à 17 h à Évran." />
+  <meta property="og:image" content="https://siteofficiel.github.io/creme-anglaise-/images/logo-full.png" />
+  <meta property="og:url" content="https://siteofficiel.github.io/creme-anglaise-/" />
   <link rel="icon" href="favicon.ico" sizes="any" />
   <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32.png" />
   <link rel="icon" type="image/png" sizes="48x48" href="images/favicon-48.png" />
@@ -16,7 +27,7 @@
 
     :root {
       --cream: #FDF6EC;
-      --gold:  #C8960C;
+      --gold:  #E3A812;
       --deep:  #1A1208;
       --brown: #3D2B0F;
       --soft:  #F0E4CC;
@@ -85,7 +96,12 @@
     }
 
     /* Content */
-    .splash-content { position: relative; max-width: 640px; width: 100%; }
+    .splash-content { position: relative; max-width: 680px; width: 100%; }
+    .splash-emblem {
+      width: clamp(108px, 20vw, 152px); height: auto; display: block;
+      margin: 0 auto 18px; border-radius: 50%; background: #fff;
+      box-shadow: 0 12px 40px rgba(0,0,0,.45);
+    }
 
     .splash-eyebrow {
       display: inline-block;
@@ -98,19 +114,20 @@
 
     .splash-title {
       font-family: 'Playfair Display', serif;
-      font-size: clamp(2.6rem, 11vw, 6rem);
-      line-height: 1.05;
-      color: var(--cream);
+      font-size: clamp(3rem, 12vw, 6.6rem);
+      line-height: 1.02;
+      color: var(--gold);
+      letter-spacing: -.01em;
       margin-bottom: 8px;
     }
     .splash-title em {
       font-style: italic; color: var(--gold);
-      display: block;
+      display: block; font-size: 1.16em;
     }
 
     .splash-tagline {
-      font-size: clamp(.95rem, 2.6vw, 1rem); color: rgba(253,246,236,.65); font-weight: 300;
-      margin: 18px 0 48px;
+      font-size: clamp(.95rem, 2.6vw, 1rem); color: rgba(253,246,236,.9); font-weight: 400;
+      margin: 18px 0 44px;
       line-height: 1.7;
     }
 
@@ -211,12 +228,13 @@
   </div>
 
   <div class="splash-content">
-    <span class="splash-eyebrow">🎵 Chorale d'&Eacute;vran & Dinan</span>
+    <img class="splash-emblem" src="images/logo-emblem.png" alt="Logo Crème Anglaise" width="150" height="150" />
+    <span class="splash-eyebrow">&#127925; Chorale d'&Eacute;vran &middot; C&ocirc;tes-d'Armor</span>
     <h1 class="splash-title">
       Crème<br>
       <em>Anglaise</em>
     </h1>
-    <p class="splash-tagline">Chorale associative &middot; Côtes-d'Armor, Bretagne</p>
+    <p class="splash-tagline">Chansons populaires anglaises et fran&ccedil;aises &middot; &Eacute;vran et ses environs, Bretagne<br>Popular English and French songs &middot; &Eacute;vran area, Brittany</p>
 
     <p class="lang-label">Choisissez votre langue &middot; Choose your language</p>
 
@@ -237,7 +255,7 @@
     </div>
   </div>
 
-  <p class="splash-footer">&copy; 2025 Association Crème Anglaise &middot; &Eacute;vran – Dinan, Côtes-d'Armor &middot; Fait avec &#9834; en Bretagne &middot; <a href="https://webetgo.fr" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;">Site réalisé par Web et Go</a></p>
+  <p class="splash-footer">&copy; 2026 Association Crème Anglaise &middot; &Eacute;vran, Côtes-d'Armor &middot; Fait avec &#9834; en Bretagne &middot; <a href="https://webetgo.fr" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;">Site réalisé par Web et Go</a></p>
   <p style="margin-top:10px;"><a href="admin.html" style="display:inline-flex;align-items:center;gap:8px;padding:8px 20px;border:1px solid rgba(200,150,12,.45);border-radius:30px;color:#C8960C;font-size:.78rem;letter-spacing:.05em;text-decoration:none;">🔐 Espace administrateur</a></p>
 </div>
 
@@ -248,7 +266,7 @@
     <p style="margin:0;font-size:.85rem;line-height:1.55;flex:1 1 320px;">
       🍪 <strong style="color:#C8960C;">Respect de votre vie privée</strong> — Ce site ne dépose <strong>aucun cookie publicitaire ni de suivi</strong>.
       Seul un stockage technique local est utilisé (mémorisation de ce choix). Les polices de caractères sont chargées depuis Google Fonts.
-      <span id="cookieMore" style="display:none;">En poursuivant votre navigation, aucune donnée personnelle n'est collectée par l'Association Crème Anglaise. Pour toute question : c.a.chorale22@gmail.com.</span>
+      <span id="cookieMore" style="display:none;">En poursuivant votre navigation, aucune donnée personnelle n'est collectée par l'Association Crème Anglaise. Pour toute question : <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="95f6bbf4bbf6fdfae7f4f9f0a7a7d5f2f8f4fcf9bbf6faf8">[email&#160;protected]</a>.</span>
       <a href="#" onclick="document.getElementById('cookieMore').style.display='inline';this.style.display='none';return false;" style="color:#C8960C;">En savoir plus</a>
     </p>
     <div style="display:flex;gap:10px;flex-wrap:wrap;">
@@ -257,7 +275,7 @@
     </div>
   </div>
 </div>
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
   function caCookieConsent(v) {
     try { localStorage.setItem('ca_cookie_consent', v); } catch (e) {}
     document.getElementById('cookieBar').style.display = 'none';
@@ -268,5 +286,5 @@
     if (!c) document.getElementById('cookieBar').style.display = 'block';
   })();
 </script>
-</body>
+<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a3f85ad5eb66d363',t:'MTc5MDE1Mzk4Mg=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
