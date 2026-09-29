@@ -20,7 +20,7 @@
     },
     {
       "file": "images/photo-4.jpg",
-      "caption_fr": "Concert en pleine air · Bretagne",
+      "caption_fr": "Concert en plein air · Bretagne",
       "caption_en": "Outdoor concert · Brittany",
       "wide": true
     }
@@ -60,6 +60,38 @@
       "title_en": "Concert · Clip 5",
       "desc_fr": "Chorale Crème Anglaise en performance",
       "desc_en": "Crème Anglaise choir in performance"
+    }
+  ],
+  "events": [
+    {
+      "type": "past",
+      "day": "19",
+      "month_fr": "Juin 26",
+      "month_en": "Jun 26",
+      "title_fr": "Fête de la Musique",
+      "title_en": "Music Day (Fête de la Musique)",
+      "place_fr": "Durée : 42 min · 15 titres",
+      "place_en": "Duration: 42 min · 15 songs"
+    },
+    {
+      "type": "past",
+      "day": "30",
+      "month_fr": "Mai 26",
+      "month_en": "May 26",
+      "title_fr": "Concert à l'EHPAD d'Évran & St Pern",
+      "title_en": "Concert at Évran & St Pern care home",
+      "place_fr": "EHPAD Évran & St Pern · 45 min · 15 titres",
+      "place_en": "Évran & St Pern care home · 45 min · 15 songs"
+    },
+    {
+      "type": "past",
+      "day": "23",
+      "month_fr": "Mai 26",
+      "month_en": "May 26",
+      "title_fr": "Concert à l'EHPAD d'Évran & St Pern",
+      "title_en": "Concert at Évran & St Pern care home",
+      "place_fr": "EHPAD Évran & St Pern · 45 min · 15 titres",
+      "place_en": "Évran & St Pern care home · 45 min · 15 songs"
     }
   ]
 }
