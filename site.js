@@ -82,9 +82,9 @@
     var grid = $('galleryGrid');
     if (!grid) return;
     var photos = media.photos || [];
-    var html = photos.map(function (p) {
+    var html = photos.map(function (p, i) {
       var cap = tr(p, 'caption');
-      return '<div class="gallery-item gallery-item--photo' + (p.wide ? ' gallery-item--wide' : '') + '">' +
+      return '<div class="gallery-item gallery-item--photo" data-idx="' + i + '" role="button" tabindex="0" aria-label="' + esc(cap) + '">' +
         '<img src="' + esc(p.file) + '" alt="' + esc(cap) + '" loading="lazy" ' +
         'onerror="this.style.display=\'none\';this.parentElement.classList.add(\'img-fallback\');" />' +
         '<div class="gallery-caption">' + esc(cap) + '</div></div>';
@@ -94,6 +94,41 @@
       '<div class="gallery-item-label"><strong>' + I18N.phTitle + '</strong>' + I18N.phSub + '</div>' +
       '<span class="gallery-upload-hint">' + I18N.phHint + '</span></div>';
     grid.innerHTML = html;
+    initLightbox(photos);
+  }
+
+  /* ---------------- Lightbox (agrandissement des photos) ---------------- */
+  var lb = null, lbImg = null, lbCap = null;
+  function initLightbox(photos) {
+    if (!photos.length) return;
+    if (!lb) {
+      lb = document.createElement('div');
+      lb.className = 'lightbox';
+      lb.setAttribute('role', 'dialog');
+      lb.setAttribute('aria-modal', 'true');
+      lb.innerHTML = '<button class="lightbox-close" aria-label="Fermer">\u2715</button>' +
+        '<img alt="" /><figcaption></figcaption>';
+      document.body.appendChild(lb);
+      lbImg = lb.querySelector('img');
+      lbCap = lb.querySelector('figcaption');
+      function closeLb() { lb.classList.remove('open'); document.body.style.overflow = ''; }
+      lb.addEventListener('click', function (e) { if (e.target !== lbImg) closeLb(); });
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeLb(); });
+    }
+    document.querySelectorAll('#galleryGrid .gallery-item--photo').forEach(function (el) {
+      function open() {
+        var p = photos[parseInt(el.getAttribute('data-idx'), 10)];
+        if (!p) return;
+        lbImg.src = p.file;
+        var cap = tr(p, 'caption');
+        lbImg.alt = cap;
+        lbCap.textContent = cap;
+        lb.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      }
+      el.addEventListener('click', open);
+      el.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); } });
+    });
   }
 
   function renderVideos(media) {
@@ -155,18 +190,26 @@
     });
   }
 
+  /* Copie de secours des médias : garantit l'affichage des photos/vidéos/agenda
+     même si media.json est momentanément inaccessible (cache, réseau, file://). */
+  var FALLBACK_MEDIA = {"photos":[{"file":"images/photo-3.jpg","caption_fr":"Concert dans une église · Village breton","caption_en":"Church concert · Breton village","wide":true},{"file":"images/photo-2.jpg","caption_fr":"Stand de présentation · Forum des associations","caption_en":"Presentation stand · Associations fair","wide":false},{"file":"images/photo-1.jpg","caption_fr":"80ème anniversaire de la Libération · La Rance Libérée — Évran, août 2024","caption_en":"80th anniversary of Liberation · La Rance Libérée — Évran, August 2024","wide":false},{"file":"images/photo-4.jpg","caption_fr":"Concert en plein air · Bretagne","caption_en":"Outdoor concert · Brittany","wide":true}],"videos":[{"file":"videos/concert-1.mp4","title_fr":"Concert · Extrait 1","title_en":"Concert · Clip 1","desc_fr":"Chorale Crème Anglaise en performance","desc_en":"Crème Anglaise choir in performance"},{"file":"videos/concert-2.mp4","title_fr":"Concert · Extrait 2","title_en":"Concert · Clip 2","desc_fr":"Chorale Crème Anglaise en performance","desc_en":"Crème Anglaise choir in performance"},{"file":"videos/concert-3.mp4","title_fr":"Concert · Extrait 3","title_en":"Concert · Clip 3","desc_fr":"Chorale Crème Anglaise en performance","desc_en":"Crème Anglaise choir in performance"},{"file":"videos/concert-4.mp4","title_fr":"Concert · Extrait 4","title_en":"Concert · Clip 4","desc_fr":"Chorale Crème Anglaise en performance","desc_en":"Crème Anglaise choir in performance"},{"file":"videos/concert-5.mp4","title_fr":"Concert · Extrait 5","title_en":"Concert · Clip 5","desc_fr":"Chorale Crème Anglaise en performance","desc_en":"Crème Anglaise choir in performance"}],"events":[{"type":"past","day":"19","month_fr":"Juin 26","month_en":"Jun 26","title_fr":"Fête de la Musique","title_en":"Music Day (Fête de la Musique)","place_fr":"Durée : 42 min · 15 titres","place_en":"Duration: 42 min · 15 songs"},{"type":"past","day":"30","month_fr":"Mai 26","month_en":"May 26","title_fr":"Concert à l'EHPAD d'Évran & St Pern","title_en":"Concert at Évran & St Pern care home","place_fr":"EHPAD Évran & St Pern · 45 min · 15 titres","place_en":"Évran & St Pern care home · 45 min · 15 songs"},{"type":"past","day":"23","month_fr":"Mai 26","month_en":"May 26","title_fr":"Concert à l'EHPAD d'Évran & St Pern","title_en":"Concert at Évran & St Pern care home","place_fr":"EHPAD Évran & St Pern · 45 min · 15 titres","place_en":"Évran & St Pern care home · 45 min · 15 songs"}]};
+
+  function showMedia(media) {
+    renderGallery(media);
+    renderVideos(media);
+    renderAgenda(media);
+    animate();
+  }
+
   fetch('media.json?v=' + Date.now())
     .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
     .then(function (media) {
-      renderGallery(media);
-      renderVideos(media);
-      renderAgenda(media);
-      animate();
+      if (!media || !Array.isArray(media.photos) || media.photos.length === 0) throw new Error('vide');
+      showMedia(media);
     })
     .catch(function () {
-      /* media.json inaccessible : on affiche au moins le placeholder galerie */
-      renderGallery({ photos: [] });
-      animate();
+      /* media.json inaccessible ou vide : on affiche la copie de secours */
+      showMedia(FALLBACK_MEDIA);
     });
 
   /* ---------------- Formulaire de contact ---------------- */
