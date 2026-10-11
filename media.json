@@ -1,6 +1,18 @@
 {
   "photos": [
     {
+      "file": "images/photo-1.jpg",
+      "caption_fr": "photo 1",
+      "caption_en": "photo 1",
+      "wide": false
+    },
+    {
+      "file": "images/affiche-2026.jpg",
+      "caption_fr": "affiche 2026",
+      "caption_en": "affiche 2026",
+      "wide": false
+    },
+    {
       "file": "images/photo-3.jpg",
       "caption_fr": "Concert dans une église · Village breton",
       "caption_en": "Church concert · Breton village",
