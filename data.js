@@ -63,49 +63,35 @@ var SONGS = [
 /* Deux exemples de programme de concert (15 titres chacun) */
 var PROGRAMS = [
   {
-    title_fr: "Fête de la Musique",
-    title_en: "Music Day (Fête de la Musique)",
-    sub_fr: "Programme d'environ 42 minutes · 15 titres",
-    sub_en: "Around 42 minutes · 15 songs",
+    title_fr: "Christmas · Noël",
+    title_en: "Christmas",
+    sub_fr: "6 titres",
+    sub_en: "6 songs",
     songs: [
-      "For me formidable",
-      "Ain't no mountain high enough",
-      "Sur le chemin des andes",
-      "Blame it on the Boogie",
-      "Hit the Road Jack",
-      "Armstrong",
-      "I'm Still Standing",
-      "Aux Champs-Élysées / Waterloo Road",
-      "Santiano",
-      "Les Mains d'or",
-      "Laissons entrer le soleil",
-      "Vois sur ton chemin",
-      "Revival Song",
-      "You'll never walk Alone",
-      "The Rhythm of Life"
+      "Oh Holy Night",
+      "The First Noel",
+      "Must Be Santa",
+      "Petit Papa Noël",
+      "Noël Blanc",
+      "Mon Beau Sapin"
     ]
   },
   {
-    title_fr: "Concert en EHPAD",
-    title_en: "Care-home concert",
-    sub_fr: "Programme d'environ 45 minutes · 15 titres",
-    sub_en: "Around 45 minutes · 15 songs",
+    title_fr: "General · Général",
+    title_en: "General",
+    sub_fr: "10 titres",
+    sub_en: "10 songs",
     songs: [
-      "For me formidable",
-      "Sur le chemin des andes",
-      "Ave Maria",
-      "Les Copains d'abord",
-      "Armstrong",
-      "Cantique Jean Racine",
-      "Les gens qu'on aime",
-      "Les Mains d'or",
-      "Laissons entrer le soleil",
-      "Vois sur ton chemin",
-      "Hymne à l'amour",
-      "Santiano",
-      "Revival Song",
+      "The Rhythm of Life",
+      "Oh Happy Day",
       "You'll never walk Alone",
-      "The Rhythm of Life"
+      "Stand by Me",
+      "Rolling in the deep",
+      "Santiano",
+      "Armstrong",
+      "Hymne à l'amour",
+      "For me formidable",
+      "Les Copains d'abord"
     ]
   }
 ];

@@ -399,9 +399,9 @@ async function syncRepoFiles() {
         if (f.type !== 'file' || !ext.test(f.name) || known.has(f.path) || EXCLUDE.test(f.name)) continue;
         const base = f.name.replace(/\.[^.]+$/, '').replace(/[-_]+/g, ' ').trim();
         if (kind === 'photos') {
-          media.photos.push({ file: f.path, caption_fr: base || 'Photo', caption_en: base || 'Photo', wide: false });
+          media.photos.unshift({ file: f.path, caption_fr: base || 'Photo', caption_en: base || 'Photo', wide: false });
         } else {
-          media.videos.push({ file: f.path, title_fr: base || 'Vidéo', title_en: base || 'Video', desc_fr: 'Chorale Crème Anglaise en performance', desc_en: 'Crème Anglaise choir in performance' });
+          media.videos.unshift({ file: f.path, title_fr: base || 'Vidéo', title_en: base || 'Video', desc_fr: 'Chorale Crème Anglaise en performance', desc_en: 'Crème Anglaise choir in performance' });
         }
         added++;
       }
@@ -586,10 +586,10 @@ async function uploadFiles(files, kind) {
       });
       if (!r.ok) { const e = await r.json().catch(() => ({})); throw new Error(friendlyError(e.message, r.status)); }
       if (isPhoto) {
-        media.photos.push({ file: path, caption_fr: 'Nouvelle photo', caption_en: 'New photo', wide: false });
+        media.photos.unshift({ file: path, caption_fr: 'Nouvelle photo', caption_en: 'New photo', wide: false });
       } else {
         const n = media.videos.length + 1;
-        media.videos.push({ file: path, title_fr: 'Concert · Extrait ' + n, title_en: 'Concert · Clip ' + n, desc_fr: 'Chorale Crème Anglaise en performance', desc_en: 'Crème Anglaise choir in performance' });
+        media.videos.unshift({ file: path, title_fr: 'Concert · Extrait ' + n, title_en: 'Concert · Clip ' + n, desc_fr: 'Chorale Crème Anglaise en performance', desc_en: 'Crème Anglaise choir in performance' });
       }
       await saveMediaJsonSilent('Ajout de ' + file.name);
       render();
