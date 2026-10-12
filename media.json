@@ -1,6 +1,12 @@
 {
   "photos": [
     {
+      "file": "images/affiche-2026.jpg",
+      "caption_fr": "affiche 2026",
+      "caption_en": "affiche 2026",
+      "wide": false
+    },
+    {
       "file": "images/photo-3.jpg",
       "caption_fr": "Concert dans une église · Village breton",
       "caption_en": "Church concert · Breton village",
@@ -51,6 +57,26 @@
     }
   ],
   "events": [
+    {
+      "type": "upcoming",
+      "day": "5",
+      "month_fr": "decembre 2026",
+      "month_en": "December 2026",
+      "title_fr": "Concert de Noel, Treverien Eglise",
+      "title_en": "Christmas Concert, Treverien Church",
+      "place_fr": "TREVERIEN",
+      "place_en": "TREVERIEN"
+    },
+    {
+      "type": "upcoming",
+      "day": "12",
+      "month_fr": "decembre 2026",
+      "month_en": "December 2026",
+      "title_fr": "Marche de Noel",
+      "title_en": "Marche de Noel",
+      "place_fr": "Chateau de Beaumanoir, Evran",
+      "place_en": "Chateau de Beaumanoir, Evran"
+    },
     {
       "type": "past",
       "day": "19",
